@@ -4,7 +4,9 @@ import pickle
 import numpy as np
 import time
 from modelo import model
-import matplotlib as plt
+import matplotlib.pyplot as plt
+
+
 
 # Page title
 st.set_page_config(page_title='AUSMAR Prediction Model', page_icon='🦺')
