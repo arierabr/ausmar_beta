@@ -3,3 +3,5 @@ pandas
 scikit-learn
 altair
 matplotlib==3.4.3
+statsmodels==0.13.2
+
