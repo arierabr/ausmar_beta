@@ -90,7 +90,8 @@ else:
 #Estudio del modelo de Machine learning
 
 with st.expander('ML Visualizer'):
-    st.markdown('**Estudio descriptivo**')
+    st.header('Model parameters', divider='rainbow')
+    #st.markdown('**Estudio descriptivo**')
 
     Air = pd.read_csv('data/AirPassengers.csv')
     Air.set_index(['Month'], inplace=True)
