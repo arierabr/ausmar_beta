@@ -6,8 +6,8 @@ import time
 from modelo import model
 
 # Page title
-st.set_page_config(page_title='AUSMAR Prediction Model', page_icon='🏗️')
-st.title('🏗️ AUSMAR SL - Stock Prediction Model')
+st.set_page_config(page_title='🦺 AUSMAR Prediction Model', page_icon='🏗️')
+st.title('🦺 AUSMAR SL - Stock Prediction Model')
 
 with st.expander('About this app'):
     st.markdown('**What can this app do?**')
@@ -77,6 +77,7 @@ if st.button("Predict"):
 
             # Display prediction results
             st.write(f"The predicted amount of units to purchase is: {prediction[0]}")
+
 else:
     st.warning('👈 Please upload both Current Purchase Orders and Current Stock CSV files to proceed!')
 
