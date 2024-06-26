@@ -9,8 +9,8 @@ import time
 import zipfile
 
 # Page title
-st.set_page_config(page_title='ML model builder', page_icon='🏗️')
-st.title('🏗️ ML model builder')
+st.set_page_config(page_title='AUSMAR prediction model', page_icon='🏗️')
+st.title('🏗️ AUSMAR SL - Stock prediction model')
 
 with st.expander('About this app'):
   st.markdown('**What can this app do?**')
