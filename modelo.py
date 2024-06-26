@@ -20,3 +20,5 @@ with open('model.pkl', 'wb') as file:
     pickle.dump(model, file)
 
 print("Modelo entrenado y guardado exitosamente.")
+
+#-------------

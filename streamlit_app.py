@@ -4,6 +4,8 @@ import pickle
 import numpy as np
 import time
 from modelo import model
+import statsmodels.api as sm
+import matplotlib.pyplot as plt
 
 # Page title
 st.set_page_config(page_title='AUSMAR Prediction Model', page_icon='🦺')
@@ -53,7 +55,7 @@ with st.sidebar:
     sleep_time = st.slider('Sleep time', 0, 3, 0)
 
 if st.button("Predict"):
-    if uploaded_file_PO is not None and uploaded_file_stock is not None:
+    if (uploaded_file_PO is not None and uploaded_file_stock is not None) or True:
         with st.spinner("Running ..."):
             st.write("Loading data ...")
             time.sleep(sleep_time)
@@ -81,3 +83,19 @@ if st.button("Predict"):
 else:
     st.warning('👈 Please upload both Current Purchase Orders and Current Stock CSV files to proceed!')
 
+#Estudio del modelo de Machine learning
+
+with st.expander('ML Visualizer'):
+    st.markdown('**Estudio descriptivo**')
+
+
+    #Cargamos el archivo:
+    Air = pd.read_csv('data/AirPassengers.csv')
+
+    #Convertimos a serie temporal:
+    Air.set_index(['Month'],inplace=True)
+    Air.index= pd.to_datetime(Air.index)
+
+    plt.rcParams["figure.figsize"] = (12, 10)
+    Air.plot()
+    plt.show()
