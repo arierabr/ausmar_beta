@@ -2,6 +2,3 @@ streamlit
 pandas
 scikit-learn
 altair
-matplotlib==3.4.3
-
-

@@ -4,8 +4,6 @@ import pickle
 import numpy as np
 import time
 from modelo import model
-import statsmodels.api as sm
-import matplotlib.pyplot as plt
 
 # Page title
 st.set_page_config(page_title='AUSMAR Prediction Model', page_icon='🦺')
@@ -88,14 +86,4 @@ else:
 with st.expander('ML Visualizer'):
     st.markdown('**Estudio descriptivo**')
 
-
-    #Cargamos el archivo:
-    #Air = pd.read_csv('data/AirPassengers.csv')
-
-    #Convertimos a serie temporal:
-    #Air.set_index(['Month'],inplace=True)
-   # Air.index= pd.to_datetime(Air.index)
-
-   # plt.rcParams["figure.figsize"] = (12, 10)
-   # Air.plot()
-   # plt.show()
+    st.info('')
