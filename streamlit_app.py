@@ -98,8 +98,8 @@ with st.expander('ML Visualizer'):
     st.write(Air.head())
 
     # Plotting with Altair
-    chart = alt.Chart(Air.reset_index()).mark_line().encode(
-        x='index:T',
+    chart = alt.Chart(Air).mark_line().encode(
+        x='Month:T',
         y='Passengers:Q'
     ).properties(
         width=800,
