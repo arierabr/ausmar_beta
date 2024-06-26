@@ -101,7 +101,7 @@ with st.expander('ML Visualizer'):
 
     # Plot using Pandas plot method
     fig, ax = plt.subplots()
-    Air.plot()
+    Air.plot(ax=ax)
     ax.set_xlabel('Date')
     ax.set_ylabel('Number of passengers')
     ax.set_title('# Passengers Time Series')
