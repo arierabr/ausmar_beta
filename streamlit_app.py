@@ -7,6 +7,7 @@ from modelo import model
 import matplotlib
 matplotlib.use('Agg')
 import matplotlib.pyplot as plt
+import altair as alt
 
 
 
@@ -96,16 +97,15 @@ with st.expander('ML Visualizer'):
     Air.index = pd.to_datetime(Air.index)
     st.write(Air.head())
 
-    # Configure figure size
-    plt.rcParams["figure.figsize"] = (12, 10)
+    # Plotting with Altair
+    chart = alt.Chart(Air.reset_index()).mark_line().encode(
+        x='index:T',
+        y='Passengers:Q'
+    ).properties(
+        width=800,
+        height=400
+    )
 
-    # Plot using Pandas plot method
-    fig, ax = plt.subplots()
-    Air.plot(ax=ax)
-    ax.set_xlabel('Date')
-    ax.set_ylabel('Number of passengers')
-    ax.set_title('# Passengers Time Series')
-
-    # Display the plot in Streamlit
-    st.pyplot(fig)
+    # Display the Altair chart in Streamlit
+    st.altair_chart(chart, use_container_width=True)
 
