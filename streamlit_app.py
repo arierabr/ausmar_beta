@@ -87,3 +87,8 @@ with st.expander('ML Visualizer'):
     st.markdown('**Estudio descriptivo**')
 
     st.info('')
+    Air = pd.read_csv('data/AirPassengers.csv')
+    Air.set_index(['Month'], inplace=True)
+    Air.index = pd.to_datetime(Air.index)
+    st.write(Air.head())
+
