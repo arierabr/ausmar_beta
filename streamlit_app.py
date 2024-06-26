@@ -4,6 +4,7 @@ import pickle
 import numpy as np
 import time
 from modelo import model
+import matplotlib as plt
 
 # Page title
 st.set_page_config(page_title='AUSMAR Prediction Model', page_icon='🦺')
@@ -86,9 +87,21 @@ else:
 with st.expander('ML Visualizer'):
     st.markdown('**Estudio descriptivo**')
 
-    st.info('')
     Air = pd.read_csv('data/AirPassengers.csv')
     Air.set_index(['Month'], inplace=True)
     Air.index = pd.to_datetime(Air.index)
     st.write(Air.head())
+
+    # Configure figure size
+    plt.rcParams["figure.figsize"] = (12, 10)
+
+    # Plot using Pandas plot method
+    fig, ax = plt.subplots()
+    Air.plot(ax=ax)
+    ax.set_xlabel('Date')
+    ax.set_ylabel('Number of passengers')
+    ax.set_title('# Passengers Time Series')
+
+    # Display the plot in Streamlit
+    st.pyplot(fig)
 
