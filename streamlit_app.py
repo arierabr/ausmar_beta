@@ -90,12 +90,12 @@ with st.expander('ML Visualizer'):
 
 
     #Cargamos el archivo:
-    Air = pd.read_csv('data/AirPassengers.csv')
+    #Air = pd.read_csv('data/AirPassengers.csv')
 
     #Convertimos a serie temporal:
-    Air.set_index(['Month'],inplace=True)
-    Air.index= pd.to_datetime(Air.index)
+    #Air.set_index(['Month'],inplace=True)
+   # Air.index= pd.to_datetime(Air.index)
 
-    plt.rcParams["figure.figsize"] = (12, 10)
-    Air.plot()
-    plt.show()
+   # plt.rcParams["figure.figsize"] = (12, 10)
+   # Air.plot()
+   # plt.show()
