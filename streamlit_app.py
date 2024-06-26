@@ -52,31 +52,31 @@ with st.sidebar:
     date = st.date_input('Select date')
     sleep_time = st.slider('Sleep time', 0, 3, 0)
 
-    if st.button("Predict"):
-        if uploaded_file_PO is not None and uploaded_file_stock is not None:
-            with st.spinner("Running ..."):
-                st.write("Loading data ...")
-                time.sleep(sleep_time)
+if st.button("Predict"):
+    if uploaded_file_PO is not None and uploaded_file_stock is not None:
+        with st.spinner("Running ..."):
+            st.write("Loading data ...")
+            time.sleep(sleep_time)
 
-                st.write("Preparing data ...")
-                time.sleep(sleep_time)
+            st.write("Preparing data ...")
+            time.sleep(sleep_time)
 
-                X = df_01.iloc[:, :-1]
-                y = df_01.iloc[:, -1]
+            X = df_01.iloc[:, :-1]
+            y = df_01.iloc[:, -1]
 
-                # Load the model from the file
-                with open('model.pkl', 'rb') as file:
-                    model = pickle.load(file)
+            # Load the model from the file
+            with open('model.pkl', 'rb') as file:
+                model = pickle.load(file)
 
-                st.write("Getting results ...")
-                time.sleep(sleep_time)
+            st.write("Getting results ...")
+            time.sleep(sleep_time)
 
-                # Placeholder input data (this should be replaced with actual input collection logic)
-                input_data = [1, 1, 1, 1]
-                prediction = predict(input_data)
+            # Placeholder input data (this should be replaced with actual input collection logic)
+            input_data = [1, 1, 1, 1]
+            prediction = predict(input_data)
 
-                # Display prediction results
-                st.write(f"The predicted amount of units to purchase is: {prediction[0]}")
-    else:
-        st.warning('👈 Please upload both Current Purchase Orders and Current Stock CSV files to proceed!')
+            # Display prediction results
+            st.write(f"The predicted amount of units to purchase is: {prediction[0]}")
+else:
+    st.warning('👈 Please upload both Current Purchase Orders and Current Stock CSV files to proceed!')
 
