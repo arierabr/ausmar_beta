@@ -77,6 +77,6 @@ with st.sidebar:
 
                 # Display prediction results
                 st.write(f"The predicted amount of units to purchase is: {prediction[0]}")
-        else:
-            st.warning('👈 Please upload both Current Purchase Orders and Current Stock CSV files to proceed!')
+    else:
+        st.warning('👈 Please upload both Current Purchase Orders and Current Stock CSV files to proceed!')
 
