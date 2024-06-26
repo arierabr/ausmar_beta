@@ -8,6 +8,7 @@ data = load_iris()
 X = data.data
 y = data.target
 
+
 # Dividir los datos en conjuntos de entrenamiento y prueba
 X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
 
@@ -20,5 +21,3 @@ with open('model.pkl', 'wb') as file:
     pickle.dump(model, file)
 
 print("Modelo entrenado y guardado exitosamente.")
-
-#-------------
