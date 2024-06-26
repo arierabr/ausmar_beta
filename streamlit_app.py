@@ -96,12 +96,9 @@ with st.expander('ML Visualizer'):
     plt.rcParams["figure.figsize"] = (12, 10)
 
     # Plot using Pandas plot method
-    fig, ax = plt.subplots()
-    Air.plot(ax=ax)
-    ax.set_xlabel('Date')
-    ax.set_ylabel('Number of passengers')
-    ax.set_title('# Passengers Time Series')
+
+    Air.plot()
 
     # Display the plot in Streamlit
-    st.pyplot(fig)
+    st.pyplot()
 
