@@ -84,11 +84,11 @@ if st.button("Predict"):
             prediction = model.predict(date)[0].round(0)
 
             if uploaded_file_PO is not None:
-                PO_ref = PO[reference].sum()
+                PO_ref = PO[PO["reference"]==reference]["units"].sum()
             else:
                 PO_ref = 0
             if uploaded_file_stock is not None:
-                stock_ref = stock[reference].sum()
+                stock_ref = stock[stock["reference"]==reference]["units"].sum()
             else:
                 stock_ref = 0
 
