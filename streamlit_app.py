@@ -55,7 +55,7 @@ with st.sidebar:
         stock = pd.read_csv(uploaded_file_stock, index_col=False)
 
     st.header('2. Set Parameters')
-    options = ['REF_001', 'REF_002', 'REF_003']
+    options = ['REF001', 'REF002', 'REF003']
     reference = st.selectbox('Select one reference', options, index=0)
     date = st.date_input('Select date')
     today = datetime.datetime.now()
