@@ -81,7 +81,7 @@ if st.button("Predict"):
             with open('hw_mul_model.pkl', 'rb') as file:
                 model = pickle.load(file)
 
-            prediction = model.predict(date)
+            prediction = model.predict(date)[0].round(0)
 
             if uploaded_file_PO is not None:
                 PO_ref = PO[reference].sum()
@@ -106,7 +106,7 @@ if st.button("Predict"):
             # Display prediction results
         status.update(label="Status", state="complete", expanded=False)
 
-        st.write(f"For the reference: {reference} we have in total {stock_ref} units in stock,\n"
+        st.write(f"For the reference: {reference} we have in total {stock_ref} units in stock.\n"
                  f"We have already purchased {PO_ref} units that will arrive soon. \n"
                  f"The total amount needed for the week {week_number} is {prediction} units \n"
                  f"So for this week {current_week} we recommend to purchase:\n"
