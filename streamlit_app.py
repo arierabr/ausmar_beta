@@ -9,6 +9,8 @@ matplotlib.use('Agg')
 import matplotlib.pyplot as plt
 import altair as alt
 import datetime as datetime
+import datetime
+
 
 
 
@@ -58,7 +60,7 @@ with st.sidebar:
     options = ['REF_001', 'REF_002', 'REF_003']
     reference = st.selectbox('Select one reference', options, index=0)
     date = st.date_input('Select date')
-    today = datetime.now()
+    today = datetime.datetime.now()
     current_week = today.isocalendar().week
     week_number = date.isocalendar().week
     st.write(f"We are at week: {current_week}")
