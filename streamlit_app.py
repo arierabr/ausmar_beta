@@ -3,13 +3,14 @@ import pandas as pd
 import pickle
 import numpy as np
 import time
-from modelo import model
 import matplotlib
 matplotlib.use('Agg')
 import matplotlib.pyplot as plt
 import altair as alt
 import datetime as datetime
 import datetime
+
+
 
 
 
@@ -84,7 +85,7 @@ if st.button("Predict"):
             y = PO.iloc[:, -1]
 
             # Load the model from the file
-            with open('model.pkl', 'rb') as file:
+            with open('hw_mul_model.pkl', 'rb') as file:
                 model = pickle.load(file)
 
             st.write("Getting results ...")
@@ -92,12 +93,12 @@ if st.button("Predict"):
 
             # Placeholder input data (this should be replaced with actual input collection logic)
             input_data = [1, 1, 1, 1]
-            prediction = predict(input_data)
+            prediction = model.predict(date)
 
             # Display prediction results
         status.update(label="Status", state="complete", expanded=False)
 
-        st.write(f"The predicted amount of units to purchase is: {prediction[0]}")
+        st.write(f"The predicted amount of units to purchase is: {prediction}")
 
 else:
     st.warning('👈 Please upload both Current Purchase Orders and Current Stock CSV files to proceed!')
