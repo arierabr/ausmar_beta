@@ -12,10 +12,6 @@ import datetime
 
 
 
-
-
-
-
 # Page title
 st.set_page_config(page_title='AUSMAR Prediction Model', page_icon='🦺')
 st.title('🦺 AUSMAR SL - Stock Prediction Model')
@@ -51,11 +47,11 @@ with st.sidebar:
 
     uploaded_file_PO = st.file_uploader("Current Purchase Orders", type=["csv"])
     if uploaded_file_PO is not None:
-        df_01 = pd.read_csv(uploaded_file_PO, index_col=False)
+        PO = pd.read_csv(uploaded_file_PO, index_col=False)
 
     uploaded_file_stock = st.file_uploader("Current Stock", type=["csv"])
     if uploaded_file_stock is not None:
-        df_02 = pd.read_csv(uploaded_file_stock, index_col=False)
+        stock = pd.read_csv(uploaded_file_stock, index_col=False)
 
     st.header('2. Set Parameters')
     options = ['REF_001', 'REF_002', 'REF_003']
@@ -75,30 +71,47 @@ if st.button("Predict"):
 
             st.write("Loading data ...")
             time.sleep(sleep_time)
-            PO = df_01
-            Stock = df_02
+
 
             st.write("Preparing data ...")
             time.sleep(sleep_time)
-
-            X = PO.iloc[:, :-1]
-            y = PO.iloc[:, -1]
 
             # Load the model from the file
             with open('hw_mul_model.pkl', 'rb') as file:
                 model = pickle.load(file)
 
+            prediction = model.predict(date)
+
+            if PO is not None:
+                PO_ref = PO[reference].sum()
+            else:
+                PO_ref = 0
+            if stock is not None:
+                stock_ref = stock[reference].sum()
+            else:
+                sotck_ref = 0
+
+
+
             st.write("Getting results ...")
+
+
             time.sleep(sleep_time)
 
             # Placeholder input data (this should be replaced with actual input collection logic)
-            input_data = [1, 1, 1, 1]
-            prediction = model.predict(date)
+
+
 
             # Display prediction results
         status.update(label="Status", state="complete", expanded=False)
 
-        st.write(f"The predicted amount of units to purchase is: {prediction}")
+        st.write(f"For the reference {reference},"
+                 f"We have in total {stock_ref} units in several ES,"
+                 f"And we have alrady purchased {PO_ref} units that will arrive"
+                 f"the total amount needed for the week {week_number} is {prediction}"
+                 f"So for this week {current_week} we recommend to purchase:"
+                 f"{prediction} - {stock_ref} - {PO_ref} = {prediction - stock_ref - PO_ref} units to purchase")
+
 
 else:
     st.warning('👈 Please upload both Current Purchase Orders and Current Stock CSV files to proceed!')
