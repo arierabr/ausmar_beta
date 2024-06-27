@@ -49,6 +49,7 @@ with st.sidebar:
     if uploaded_file_PO is not None:
         PO = pd.read_csv(uploaded_file_PO, index_col=False)
 
+
     uploaded_file_stock = st.file_uploader("Current Stock", type=["csv"])
     if uploaded_file_stock is not None:
         stock = pd.read_csv(uploaded_file_stock, index_col=False)
@@ -82,14 +83,14 @@ if st.button("Predict"):
 
             prediction = model.predict(date)
 
-            if PO is not None:
+            if uploaded_file_PO is not None:
                 PO_ref = PO[reference].sum()
             else:
                 PO_ref = 0
-            if stock is not None:
+            if uploaded_file_stock is not None:
                 stock_ref = stock[reference].sum()
             else:
-                sotck_ref = 0
+                stock_ref = 0
 
 
 
