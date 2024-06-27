@@ -59,7 +59,7 @@ with st.sidebar:
     reference = st.selectbox('Select one reference', options, index=0)
     date = st.date_input('Select date')
     st.write(type(date))
-    st.write(date.isocalendar())
+    st.write(date.isocalendar("week"))
     sleep_time = 1
 
 if st.button("Predict"):
