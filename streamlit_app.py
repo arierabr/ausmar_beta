@@ -8,6 +8,8 @@ import matplotlib
 matplotlib.use('Agg')
 import matplotlib.pyplot as plt
 import altair as alt
+import datetime as datetime
+
 
 
 
@@ -56,7 +58,8 @@ with st.sidebar:
     options = ['REF_001', 'REF_002', 'REF_003']
     reference = st.selectbox('Select one reference', options, index=0)
     date = st.date_input('Select date')
-    sleep_time = st.slider('Sleep time', 0, 3, 0)
+    st.write(date.dt.isocalendar.week())
+    sleep_time = 1
 
 if st.button("Predict"):
     if (uploaded_file_PO is not None and uploaded_file_stock is not None) or True:
