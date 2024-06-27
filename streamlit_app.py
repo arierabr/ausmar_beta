@@ -106,12 +106,11 @@ if st.button("Predict"):
             # Display prediction results
         status.update(label="Status", state="complete", expanded=False)
 
-        st.write(f"For the reference {reference},"
-                 f"We have in total {stock_ref} units in several ES,"
-                 f"And we have alrady purchased {PO_ref} units that will arrive"
-                 f"the total amount needed for the week {week_number} is {prediction}"
-                 f"So for this week {current_week} we recommend to purchase:"
-                 f"{prediction} - {stock_ref} - {PO_ref} = {prediction - stock_ref - PO_ref} units to purchase")
+        st.write(f"For the reference: {reference} we have in total {stock_ref} units in stock,\n"
+                 f"We have already purchased {PO_ref} units that will arrive soon. \n"
+                 f"The total amount needed for the week {week_number} is {prediction} units \n"
+                 f"So for this week {current_week} we recommend to purchase:\n"
+                 f"{prediction} - {stock_ref} - {PO_ref} = {prediction - stock_ref - PO_ref} units")
 
 
 else:
