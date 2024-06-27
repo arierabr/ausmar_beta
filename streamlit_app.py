@@ -60,15 +60,19 @@ with st.sidebar:
 
 if st.button("Predict"):
     if (uploaded_file_PO is not None and uploaded_file_stock is not None) or True:
-        with st.spinner("Running ..."):
+
+        with st.status("Running ...", expanded=True) as status:
+
             st.write("Loading data ...")
             time.sleep(sleep_time)
+            PO = df_01
+            Stock = df_02
 
             st.write("Preparing data ...")
             time.sleep(sleep_time)
 
-            X = df_01.iloc[:, :-1]
-            y = df_01.iloc[:, -1]
+            X = PO.iloc[:, :-1]
+            y = PO.iloc[:, -1]
 
             # Load the model from the file
             with open('model.pkl', 'rb') as file:
@@ -82,7 +86,9 @@ if st.button("Predict"):
             prediction = predict(input_data)
 
             # Display prediction results
-            st.write(f"The predicted amount of units to purchase is: {prediction[0]}")
+        status.update(label="Status", state="complete", expanded=False)
+
+        st.write(f"The predicted amount of units to purchase is: {prediction[0]}")
 
 else:
     st.warning('👈 Please upload both Current Purchase Orders and Current Stock CSV files to proceed!')
@@ -90,8 +96,7 @@ else:
 #Estudio del modelo de Machine learning
 
 with st.expander('ML Visualizer'):
-    st.header('Model parameters', divider='rainbow')
-    #st.markdown('**Estudio descriptivo**')
+    st.header('Estudio Descriptivo', divider='rainbow')
 
     Air = pd.read_csv('data/AirPassengers.csv')
     Air.set_index(['Month'], inplace=True)
