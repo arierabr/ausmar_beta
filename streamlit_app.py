@@ -74,14 +74,14 @@ with st.sidebar:
 
     st.header('2. Importar pedidos e inventarios')
 
-    pedidos = st.file_uploader("Pedidos hasta la fecha de hoy", type=["csv"])
-    if pedidos is not None:
-        f.update_pedidos(pedidos)
+    file_pedidos = st.file_uploader("Pedidos hasta la fecha de hoy", type=["csv"])
+    if file_pedidos is not None:
+        f.update_pedidos(file_pedidos)
 
 
-    inventario = st.file_uploader("Inventario actual", type=["csv"])
-    if inventario is not None:
-        f.update_stock(inventario)
+    file_inventario = st.file_uploader("Inventario actual", type=["csv"])
+    if file_inventario is not None:
+        f.update_stock(file_inventario)
 
 
     st.header('3. Seleccionar producto')
@@ -95,60 +95,51 @@ with st.sidebar:
 if color == 'red':
     st.warning('👈 Porfavor, revise que los datos de aprendizaje estén actualizados, \n'
                'La precisión del modelo puede ser baja')
-elif inventario is None or pedidos is None:
-    st.warning('👈 No se han introducidos datos para el control de inventario y/o pedidos realizado. \n'
+elif file_inventario is None or file_pedidos is None:
+    st.warning('👈 No se han introducidos datos para el control de inventario y/o pedidos realizados. \n'
                'Las recomendaciones de compra pueden no ser precisas.')
 
 
 
 if st.button("Predict"):
-    if (uploaded_file_PO is not None and uploaded_file_stock is not None) or True:
+    with st.status("Corriendo ...", expanded=True) as status:
 
-        with st.status("Running ...", expanded=True) as status:
+        st.write("Cargando datos ...")
+        time.sleep(sleep_time)
+        ruta_modelo = "modelos/hw_mul_model_{reference}.pkl"
+        inventario = pd.read_csv("data/inventario.csv")
+        pedidos = pd.read_csv("data/pedidos.csv")
+        week_plus1 = current_date + datetime.timedelta(days=7)
+        week_plus2 = current_date + datetime.timedelta(days=7)
 
-            st.write("Loading data ...")
-            time.sleep(sleep_time)
+        st.write("Preparando modelo ...")
+        time.sleep(sleep_time)
 
+        with open(ruta_modelo, 'rb') as file:
+            model = pickle.load(file)
 
-            st.write("Preparing data ...")
-            time.sleep(sleep_time)
-
-            # Load the model from the file
-            with open('hw_mul_model.pkl', 'rb') as file:
-                model = pickle.load(file)
-
-            prediction = model.predict(date)[0].round(0)
-            #Falta añadir que se vaya sumando la prediccion de la semana actual + las siguintes hasta llegar a la semana de la cual se quiere predecir el stock
-            
-
-            if uploaded_file_PO is not None:
-                PO_ref = PO[PO["reference"]==reference]["units"].sum()
-            else:
-                PO_ref = 0
-            if uploaded_file_stock is not None:
-                stock_ref = stock[stock["reference"]==reference]["units"].sum()
-            else:
-                stock_ref = 0
+        inv_ref = inventario[inventario[reference]==reference]["Cantidad"].sum()
+        ped_ref = pedidos[pedidos[reference]==reference]["Cantidad"].sum()
 
 
+        st.write("Realizando predicciones ...")
+        time.sleep(sleep_time)
 
-            st.write("Getting results ...")
+        prediction01 = model.predict(week_plus1)[0].round(0)
+        prediction02 = model.predict(week_plus2)[0].round(0)
 
+        st.write("Obteniendo resultados ...")
+        time.sleep(sleep_time)
 
-            time.sleep(sleep_time)
-
-            # Placeholder input data (this should be replaced with actual input collection logic)
-
-
-
-            # Display prediction results
         status.update(label="Status", state="complete", expanded=False)
 
-        st.write(f"For the reference: {reference} we have in total {stock_ref} units in stock.\n"
-                 f"We have already purchased {PO_ref} units that will arrive soon. \n"
-                 f"The total amount needed for the week {week_number} is {prediction} units \n"
-                 f"So for this week {current_week} we recommend to purchase:\n"
-                 f"{prediction} - {stock_ref} - {PO_ref} = {prediction - stock_ref - PO_ref} units")
+        st.write(f"Consumo semana {week_today +1}: {prediction01}. \n"
+                 f"Consumo semana {week_today +2}: {prediction02}. \n"
+                 f"Inventario disponible: {inv_ref}.\n"
+                 f"Pedidos realizados: {ped_ref}.\n")
+        st.header(f"Comprar {prediction01+prediction02-inv_ref-ped_ref} unidades de {reference}")
+
+
 
 
 
