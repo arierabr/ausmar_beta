@@ -135,10 +135,21 @@ def update_pedidos(csv):
     except Exception as e:
         print(f"Error al guardar el archivo: {e}")
 
-def update_stock(csv):
-    inventario =pd.read_csv(csv, encoding="latin1", header=0, sep=";")
-    inventario.to_csv("data/inventario.csv")
 
+def update_stock(csv):
+    try:
+        # Leer el archivo CSV subido
+        inventario = pd.read_csv(csv, encoding="latin1", header=0, sep=";")
+
+        # Asegurarse de que el directorio 'data' existe
+        if not os.path.exists('data'):
+            os.makedirs('data')
+
+        # Guardar el archivo CSV en el directorio 'data'
+        inventario.to_csv("data/inventario.csv", index=False)
+        print("Archivo guardado en data/inventario.csv")
+    except Exception as e:
+        print(f"Error al guardar el archivo: {e}")
 
 def week_number (data_path):
     df = pd.read_csv(data_path)

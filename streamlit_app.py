@@ -83,6 +83,7 @@ with st.sidebar:
     file_inventario = st.file_uploader("Inventario actual", type=["csv"])
     if file_inventario is not None:
         f.update_stock(file_inventario)
+        st.success("Archivo de pedidos actualizado y guardado en data/pedidos.csv")
 
 
     st.header('3. Seleccionar producto')
