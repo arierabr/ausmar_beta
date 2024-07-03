@@ -107,6 +107,7 @@ if st.button("Predict"):
 
     with st.status("Corriendo ...", expanded=True) as status:
         f.update_models(options, "data/datos_entrenamiento_modelo.csv")
+
         st.write("Cargando datos ...")
         time.sleep(sleep_time)
 
