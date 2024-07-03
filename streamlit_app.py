@@ -9,6 +9,8 @@ import matplotlib.pyplot as plt
 import altair as alt
 import datetime as datetime
 import datetime
+import funciones
+
 
 
 
