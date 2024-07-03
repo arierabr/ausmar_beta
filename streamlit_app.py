@@ -74,10 +74,11 @@ with st.sidebar:
 
     st.header('2. Importar pedidos e inventarios')
 
+    # Subir archivo de pedidos
     file_pedidos = st.file_uploader("Pedidos hasta la fecha de hoy", type=["csv"])
     if file_pedidos is not None:
         f.update_pedidos(file_pedidos)
-
+        st.success("Archivo de pedidos actualizado y guardado en data/pedidos.csv")
 
     file_inventario = st.file_uploader("Inventario actual", type=["csv"])
     if file_inventario is not None:

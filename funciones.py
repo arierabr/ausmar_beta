@@ -7,6 +7,7 @@ import statsmodels.tsa.holtwinters as ets
 from statsmodels.tsa.stattools import adfuller
 from sklearn.metrics import mean_squared_error, r2_score, mean_absolute_percentage_error
 import pickle
+import os
 
 def eval_model(model,tr,tst,name='Model',lags=12):
     lb = np.mean(sm.stats.acorr_ljungbox(model.resid, lags=lags, return_df=True).lb_pvalue)
@@ -118,9 +119,21 @@ def refresh_all_data(csv):
     df = df[["Semana", "Almacen", "Producto", "Cantidad"]]
     df.to_csv("data/datos_entrenamiento_modelo.csv")
 
+
 def update_pedidos(csv):
-    pedidos = pd.read_csv(csv, encoding="latin1", header=0, sep=";")
-    pedidos.to_csv("data/pedidos.csv")
+    try:
+        # Leer el archivo CSV subido
+        pedidos = pd.read_csv(csv, encoding="latin1", header=0, sep=";")
+
+        # Asegurarse de que el directorio 'data' existe
+        if not os.path.exists('data'):
+            os.makedirs('data')
+
+        # Guardar el archivo CSV en el directorio 'data'
+        pedidos.to_csv("data/pedidos.csv", index=False)
+        print("Archivo guardado en data/pedidos.csv")
+    except Exception as e:
+        print(f"Error al guardar el archivo: {e}")
 
 def update_stock(csv):
     inventario =pd.read_csv(csv, encoding="latin1", header=0, sep=";")
