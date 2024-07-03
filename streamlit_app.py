@@ -88,6 +88,7 @@ with st.sidebar:
     options = ["CA140180","CA140181","CA030009","CA030010","CA161459","CA030008","CA100118"]
     reference = st.selectbox('Seleccione el producto', options, index=0)
 
+    st.button("Predict")
     sleep_time = 1
 
 
