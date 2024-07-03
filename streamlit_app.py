@@ -154,17 +154,21 @@ if st.button("Predict"):
 #Estudio del modelo de Machine learning
 
 with st.expander('ML Visualizer'):
+
     st.header('Estudio Descriptivo', divider='rainbow')
 
-    Air = pd.read_csv('data/AirPassengers.csv')
-    Air.set_index(['Month'], inplace=True)
-    Air.index = pd.to_datetime(Air.index)
-    st.write(Air.head())
+    consumos = pd.read_csv('data/datos_entrenamiento_modelo.csv.csv')
+
+    consumos = consumos[consumos["Producto"] == reference].groupby("Semana")["Cantidad"].sum().reset_index()
+
+    consumos.set_index(['Semana'], inplace=True)
+    consumos.index = pd.to_datetime(consumos.index)
+    st.write(consumos.head())
 
     # Plotting with Altair
-    chart = alt.Chart(Air.reset_index()).mark_line().encode(
-        x='Month:T',
-        y='Passengers:Q'
+    chart = alt.Chart(consumos.reset_index()).mark_line().encode(
+        x='Semana:T',
+        y='Cantidad:Q'
     ).properties(
         width=800,
         height=400
