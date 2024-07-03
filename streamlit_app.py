@@ -28,10 +28,9 @@ with st.expander('Información para el usuario'):
             '1. Asegúrese que las base de datos está actualizada con los últimos datos de la semana anterior. \n'
             'En caso contrario, actualice los datos que faltan importando el archivo csv a través '
             'del botón "actualizar DB". \n'
-            'Si lo desea, puede actualizar completamente la base de datos con la opción "Refrescar DB" \n'
-            '2. Importe el csv de los ultimos datos de comprar del mes anterior\n'
-            '3. Importe el csv de los niveles de inventario actualizados \n'
-            '4. Seleccione la producto del que quiere realizar la modelización \n')
+            'Si lo desea, puede actualizar completamente la base de datos con la opción "Refrescar DB". \n'
+            '2. Importe el csv de los ultimos datos de comprar del mes y el inventario actualizado. \n'
+            '3. Seleccione la producto del que quiere realizar la modelización. \n')
 
 
 
@@ -84,18 +83,14 @@ with st.sidebar:
         f.update_stock(inventario)
 
 
+    st.header('3. Seleccionar producto')
 
+    options = ["CA140180","CA140181","CA030009","CA030010","CA161459","CA030008","CA100118"]
+    reference = st.selectbox('Seleccione el producto', options, index=0)
 
-
-    options = ['REF001', 'REF002', 'REF003']
-    reference = st.selectbox('Select one reference', options, index=0)
-    date = st.date_input('Select date')
-    today = datetime.datetime.now()
-    current_week = today.isocalendar().week
-    week_number = date.isocalendar().week
-    st.write(f"We are at week: {current_week}")
-    st.write(f"Prediction for week: {week_number}")
     sleep_time = 1
+
+
 
 if st.button("Predict"):
     if (uploaded_file_PO is not None and uploaded_file_stock is not None) or True:
