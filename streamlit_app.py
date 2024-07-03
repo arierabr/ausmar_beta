@@ -104,17 +104,18 @@ elif file_inventario is None or file_pedidos is None:
 
 
 if st.button("Predict"):
+
     with st.status("Corriendo ...", expanded=True) as status:
-
+        f.update_models(options, "data/datos_entrenamiento_modelo.csv")
         st.write("Cargando datos ...")
-
         time.sleep(sleep_time)
+
         ruta_modelo = f"modelos/hw_mul_model_{reference}.pkl"
         inventario = pd.read_csv("data/inventario.csv")
         pedidos = pd.read_csv("data/pedidos.csv")
         week_plus1 = current_date + datetime.timedelta(days=7)
         week_plus2 = current_date + datetime.timedelta(days=7)
-        f.update_models(options, "data/datos_entrenamiento_modelo.csv")
+
 
         st.write("Preparando modelo ...")
         time.sleep(sleep_time)
