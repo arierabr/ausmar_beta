@@ -57,9 +57,13 @@ with st.sidebar:
     else:
         color = 'red'
 
-    with st.container(style=f"background-color: {color}; padding: 10px"):
-        st.write(f"Últimos datos de la semana: {week_DB}")
-        st.write(f"Semana actual: {week_today}")
+    st.markdown(f'<div style="background-color: {color}; padding: 10px;">'
+                f'<p>Últimos datos de la semana: {week_DB}</p>'
+                f'<p>Semana actual: {week_today}</p>'
+                '</div>', unsafe_allow_html=True)
+  #  with st.container(style=f"background-color: {color}; padding: 10px"):
+  #      st.write(f"Últimos datos de la semana: {week_DB}")
+  #      st.write(f"Semana actual: {week_today}")
 
     uploaded_file_PO = st.file_uploader("Current Purchase Orders", type=["csv"])
     if uploaded_file_PO is not None:
