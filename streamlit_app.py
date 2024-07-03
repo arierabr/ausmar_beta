@@ -78,6 +78,7 @@ with st.sidebar:
     if pedidos is not None:
         f.update_pedidos(pedidos)
 
+
     inventario = st.file_uploader("Inventario actual", type=["csv"])
     if inventario is not None:
         f.update_stock(inventario)
@@ -90,6 +91,13 @@ with st.sidebar:
 
 
     sleep_time = 1
+
+if color == 'red':
+    st.warning('👈 Porfavor, revise que los datos de aprendizaje estén actualizados, \n'
+               'La precisión del modelo puede ser baja')
+elif inventario is None or pedidos is None:
+    st.warning('👈 No se han introducidos datos para el control de inventario y/o pedidos realizado. \n'
+               'Las recomendaciones de compra pueden no ser precisas.')
 
 
 
@@ -143,8 +151,7 @@ if st.button("Predict"):
                  f"{prediction} - {stock_ref} - {PO_ref} = {prediction - stock_ref - PO_ref} units")
 
 
-else:
-    st.warning('👈 Please upload both Current Purchase Orders and Current Stock CSV files to proceed!')
+
 
 #Estudio del modelo de Machine learning
 
