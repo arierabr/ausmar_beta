@@ -111,13 +111,13 @@ if st.button("Predict"):
         pedidos = pd.read_csv("data/pedidos.csv")
         week_plus1 = current_date + datetime.timedelta(days=7)
         week_plus2 = current_date + datetime.timedelta(days=7)
+        f.update_models(options, "data/datos_entrenamiento_modelo.csv")
 
         st.write("Preparando modelo ...")
         time.sleep(sleep_time)
 
         with open(ruta_modelo, 'rb') as file:
             model = pickle.load(file)
-
         inv_ref = inventario[inventario[reference]==reference]["Cantidad"].sum()
         ped_ref = pedidos[pedidos[reference]==reference]["Cantidad"].sum()
 
