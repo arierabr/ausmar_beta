@@ -9,7 +9,7 @@ import matplotlib.pyplot as plt
 import altair as alt
 import datetime as datetime
 import datetime
-import funciones
+import funciones as f
 
 
 
@@ -27,7 +27,7 @@ with st.expander('Información para el usuario'):
     st.info('Le recomendamos que se diriga al panel lateral izquierdo y siga los siguientes pasos:\n'
             '1. Asegúrese que las base de datos está actualizada con los últimos datos de la semana anterior. \n'
             'En caso contrario, actualice los datos que faltan importando el archivo csv a través '
-            'del botón "actualizar DB"\n'
+            'del botón "actualizar DB". \n'
             'Si lo desea, puede actualizar completamente la base de datos con la opción "Refrescar DB" \n'
             '2. Importe el csv de los ultimos datos de comprar del mes anterior\n'
             '3. Importe el csv de los niveles de inventario actualizados \n'
@@ -42,9 +42,24 @@ def predict(input_data):
 
 # Sidebar for accepting input parameters
 with st.sidebar:
-    st.header('1. Input data')
+    st.header('1. Datos de aprendizaje para el modelo:')
 
-    st.markdown('**1. Use custom data**')
+    # Ejemplo de valores
+    week_DB = f.week_number("data/datos_entrenamiento_modelo.csv")
+    # Get the current date
+    current_date = datetime.date.today()
+    # Get the ISO calendar week number
+    week_today = current_date.isocalendar()[1]
+
+    # Condición para determinar el color
+    if week_DB + 1 == week_today:
+        color = 'green'
+    else:
+        color = 'red'
+
+    with st.container(style=f"background-color: {color}; padding: 10px"):
+        st.write(f"Últimos datos de la semana: {week_DB}")
+        st.write(f"Semana actual: {week_today}")
 
     uploaded_file_PO = st.file_uploader("Current Purchase Orders", type=["csv"])
     if uploaded_file_PO is not None:
