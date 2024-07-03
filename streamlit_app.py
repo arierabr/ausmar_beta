@@ -109,7 +109,7 @@ if st.button("Predict"):
         st.write("Cargando datos ...")
 
         time.sleep(sleep_time)
-        ruta_modelo = "modelos/hw_mul_model_{reference}.pkl"
+        ruta_modelo = f"modelos/hw_mul_model_{reference}.pkl"
         inventario = pd.read_csv("data/inventario.csv")
         pedidos = pd.read_csv("data/pedidos.csv")
         week_plus1 = current_date + datetime.timedelta(days=7)
