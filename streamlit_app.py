@@ -140,8 +140,8 @@ if st.button("Predict"):
 
         status.update(label="Status", state="complete", expanded=False)
 
-        st.write(f"Consumo semana {week_today +1}: {prediction01}. \n"
-                 f"Consumo semana {week_today +2}: {prediction02}. \n"
+        st.write(f"Consumo semana {week_today +1} fecha {week_plus1_str}: {prediction01}. \n"
+                 f"Consumo semana {week_today +2} fecha {week_plus2_str}: {prediction02}. \n"
                  f"Inventario disponible: {inv_ref}.\n"
                  f"Pedidos realizados: {ped_ref}.\n")
         #st.header(f"Comprar {prediction01+prediction02-inv_ref-ped_ref} unidades de {reference}")
