@@ -117,7 +117,8 @@ if st.button("Predict"):
         pedidos = pd.read_csv("data/pedidos.csv")
         week_plus1 = current_date + datetime.timedelta(days=7)
         week_plus2 = current_date + datetime.timedelta(days=7)
-
+        week_plus1_str = week_plus1.strftime("%Y-%m-%d")
+        week_plus2_str = week_plus2.strftime("%Y-%m-%d")
 
         st.write("Preparando modelo ...")
         time.sleep(sleep_time)
@@ -131,8 +132,8 @@ if st.button("Predict"):
         st.write("Realizando predicciones ...")
         time.sleep(sleep_time)
 
-        prediction01 = model.predict(week_plus1)[0].round(0)
-        prediction02 = model.predict(week_plus2)[0].round(0)
+        prediction01 = model.predict(week_plus1_str)[0].round(0)
+        prediction02 = model.predict(week_plus2_str)[0].round(0)
 
         st.write("Obteniendo resultados ...")
         time.sleep(sleep_time)
