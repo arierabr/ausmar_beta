@@ -118,6 +118,15 @@ def refresh_all_data(csv):
     df = df[["Semana", "Almacen", "Producto", "Cantidad"]]
     df.to_csv("data/datos_entrenamiento_modelo.csv")
 
+def update_pedidos(csv):
+    pedidos = pd.read_csv(csv, encoding="latin1", header=0, sep=";")
+    pedidos.to_csv("data/pedidos.csv")
+
+def update_stock(csv):
+    inventario =pd.read_csv(csv, encoding="latin1", header=0, sep=";")
+    inventario.to_csv("data/inventario.csv")
+
+
 def week_number (data_path):
     df = pd.read_csv(data_path)
     df["Semana"] = pd.to_datetime(df["Semana"])

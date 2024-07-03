@@ -61,10 +61,6 @@ with st.sidebar:
                 f'<p>Últimos datos de la semana: {week_DB}</p>'
                 f'<p>Semana actual: {week_today}</p>'
                 '</div>', unsafe_allow_html=True)
-  #  with st.container(style=f"background-color: {color}; padding: 10px"):
-  #      st.write(f"Últimos datos de la semana: {week_DB}")
-  #      st.write(f"Semana actual: {week_today}")
-
 
 
     new_data = st.file_uploader("Añadir datos recientes", type=["csv"])
@@ -72,11 +68,25 @@ with st.sidebar:
         f.update_df("data/datos_entrenamiento_modelo.csv",new_data)
 
 
-    uploaded_file_stock = st.file_uploader("Refrescar todos los datos", type=["csv"])
-    if uploaded_file_stock is not None:
-        stock = pd.read_csv(uploaded_file_stock, index_col=False)
+    df_all_data = st.file_uploader("Refrescar todos los datos", type=["csv"])
+    if df_all_data is not None:
+        f.refresh_all_data(df_all_data)
 
-    st.header('2. Set Parameters')
+
+    st.header('2. Importar pedidos e inventarios')
+
+    pedidos = st.file_uploader("Pedidos hasta la fecha de hoy", type=["csv"])
+    if pedidos is not None:
+        f.update_pedidos(pedidos)
+
+    inventario = st.file_uploader("Inventario actual", type=["csv"])
+    if inventario is not None:
+        f.update_stock(inventario)
+
+
+
+
+
     options = ['REF001', 'REF002', 'REF003']
     reference = st.selectbox('Select one reference', options, index=0)
     date = st.date_input('Select date')
