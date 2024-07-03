@@ -106,6 +106,7 @@ if st.button("Predict"):
     with st.status("Corriendo ...", expanded=True) as status:
 
         st.write("Cargando datos ...")
+
         time.sleep(sleep_time)
         ruta_modelo = "modelos/hw_mul_model_{reference}.pkl"
         inventario = pd.read_csv("data/inventario.csv")
