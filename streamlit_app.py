@@ -18,23 +18,21 @@ import funciones
 st.set_page_config(page_title='AUSMAR Prediction Model', page_icon='🦺')
 st.title('🦺 AUSMAR SL - Stock Prediction Model')
 
-with st.expander('About this app'):
-    st.markdown('**What can this app do?**')
-    st.info('This app allows users to predict the amount of inventory needed for a specific reference for the following week.')
+with st.expander('Información para el usuario'):
+    st.markdown('**Cuál es la finalidad de esta herramienta?**')
+    st.info('Esta herramienta ha sido diseñada con la finalidad de '
+            'predecir la cantidad de inventario que se va a consumir en las próximas semanas')
 
-    st.markdown('**How to use the app?**')
-    st.warning('To engage with the app, go to the sidebar and:\n'
-               '1. Import current Purchase Orders\n'
-               '2. Import current stock in ALM and ES\n'
-               '3. Select one reference\n'
-               'As a result, this will show the amount of units to purchase.')
+    st.markdown('**Cómo utilizarla?**')
+    st.info('Le recomendamos que siga los siguientes pasos:\n'
+            '1. Asegúrese que las base de datos está actualizada con los últimos datos de la semana anterior \n'
+            '   En caso contrario, actualice los datos que faltan importando el archivo csv a través de la función "actualizar DB"\n'
+            '   Si lo desea, puede actualizar completamente la base de datos con la opción "Refrescar DB" \n'
+            '2. Importe el csv de los ultimos datos de comprar del mes anterior\n'
+            '3. Importe el csv de los niveles de inventario actualizados \n'
+            '4. Seleccione la producto del que quiere realizar la modelización \n')
 
-    st.markdown('**Under the hood**')
-    st.markdown('Data sets:')
-    st.code('''
-    - Current Purchase Orders
-    - Current stock
-    ''', language='markdown')
+
 
 def predict(input_data):
     input_array = np.array(input_data).reshape(1, -1)
