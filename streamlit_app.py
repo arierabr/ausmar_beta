@@ -143,7 +143,7 @@ if st.button("Predict"):
                  f"Consumo semana {week_today +2}: {prediction02}. \n"
                  f"Inventario disponible: {inv_ref}.\n"
                  f"Pedidos realizados: {ped_ref}.\n")
-        st.header(f"Comprar {prediction01+prediction02-inv_ref-ped_ref} unidades de {reference}")
+        #st.header(f"Comprar {prediction01+prediction02-inv_ref-ped_ref} unidades de {reference}")
 
 
 
