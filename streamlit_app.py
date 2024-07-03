@@ -53,7 +53,7 @@ with st.sidebar:
 
     # Condición para determinar el color
     if week_DB + 1 == week_today:
-        color = 'green'
+        color = '#8FBC8F'
     else:
         color = 'red'
 
