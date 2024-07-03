@@ -19,15 +19,16 @@ st.set_page_config(page_title='AUSMAR Prediction Model', page_icon='🦺')
 st.title('🦺 AUSMAR SL - Stock Prediction Model')
 
 with st.expander('Información para el usuario'):
-    st.markdown('**Cuál es la finalidad de esta herramienta?**')
+    st.markdown('**¿Cuál es la finalidad de esta herramienta?**')
     st.info('Esta herramienta ha sido diseñada con la finalidad de '
             'predecir la cantidad de inventario que se va a consumir en las próximas semanas')
 
-    st.markdown('**Cómo utilizarla?**')
-    st.info('Le recomendamos que siga los siguientes pasos:\n'
-            '1. Asegúrese que las base de datos está actualizada con los últimos datos de la semana anterior \n'
-            '   En caso contrario, actualice los datos que faltan importando el archivo csv a través de la función "actualizar DB"\n'
-            '   Si lo desea, puede actualizar completamente la base de datos con la opción "Refrescar DB" \n'
+    st.markdown('**¿Cómo utilizarla?**')
+    st.info('Le recomendamos que se diriga al panel lateral izquierdo y siga los siguientes pasos:\n'
+            '1. Asegúrese que las base de datos está actualizada con los últimos datos de la semana anterior. \n'
+            'En caso contrario, actualice los datos que faltan importando el archivo csv a través '
+            'del botón "actualizar DB"\n'
+            'Si lo desea, puede actualizar completamente la base de datos con la opción "Refrescar DB" \n'
             '2. Importe el csv de los ultimos datos de comprar del mes anterior\n'
             '3. Importe el csv de los niveles de inventario actualizados \n'
             '4. Seleccione la producto del que quiere realizar la modelización \n')
