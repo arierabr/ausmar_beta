@@ -157,7 +157,7 @@ with st.expander('ML Visualizer'):
 
     st.header('Estudio Descriptivo', divider='rainbow')
 
-    consumos = pd.read_csv('data/datos_entrenamiento_modelo.csv.csv')
+    consumos = pd.read_csv('data/datos_entrenamiento_modelo.csv')
 
     consumos = consumos[consumos["Producto"] == reference].groupby("Semana")["Cantidad"].sum().reset_index()
 
