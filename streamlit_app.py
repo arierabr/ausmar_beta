@@ -65,12 +65,14 @@ with st.sidebar:
   #      st.write(f"Últimos datos de la semana: {week_DB}")
   #      st.write(f"Semana actual: {week_today}")
 
-    uploaded_file_PO = st.file_uploader("Current Purchase Orders", type=["csv"])
-    if uploaded_file_PO is not None:
-        PO = pd.read_csv(uploaded_file_PO, index_col=False)
 
 
-    uploaded_file_stock = st.file_uploader("Current Stock", type=["csv"])
+    new_data = st.file_uploader("Añadir datos recientes", type=["csv"])
+    if new_data is not None:
+        f.update_df("data/datos_entrenamiento_modelo.csv",new_data)
+
+
+    uploaded_file_stock = st.file_uploader("Refrescar todos los datos", type=["csv"])
     if uploaded_file_stock is not None:
         stock = pd.read_csv(uploaded_file_stock, index_col=False)
 

@@ -61,7 +61,8 @@ def test_stationarity(timeseries):
     print(dfoutput)
 
 
-def update_df(df, new_csv):
+def update_df(data_path, new_csv):
+    df = pd.read_csv(data_path)
     df_new = pd.read_csv(new_csv, encoding="latin1", header=0, sep=";")
     # Corregimos el nombre de las columnas:
     df_new.columns = [
