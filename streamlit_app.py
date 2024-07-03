@@ -116,7 +116,7 @@ if st.button("Predict"):
         inventario = pd.read_csv("data/inventario.csv")
         pedidos = pd.read_csv("data/pedidos.csv")
         week_plus1 = current_date + datetime.timedelta(days=7)
-        week_plus2 = current_date + datetime.timedelta(days=7)
+        week_plus2 = current_date + datetime.timedelta(days=14)
         week_plus1_str = week_plus1.strftime("%Y-%m-%d")
         week_plus2_str = week_plus2.strftime("%Y-%m-%d")
 
