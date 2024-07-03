@@ -82,6 +82,8 @@ if st.button("Predict"):
                 model = pickle.load(file)
 
             prediction = model.predict(date)[0].round(0)
+            #Falta añadir que se vaya sumando la prediccion de la semana actual + las siguintes hasta llegar a la semana de la cual se quiere predecir el stock
+            
 
             if uploaded_file_PO is not None:
                 PO_ref = PO[PO["reference"]==reference]["units"].sum()
