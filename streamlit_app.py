@@ -105,7 +105,7 @@ elif file_inventario is None or file_pedidos is None:
 
 if st.button("Predict"):
 
-    with st.status("Corriendo ...", expanded=True) as status:
+    with (st.status("Corriendo ...", expanded=True) as status):
 
         f.update_models(options, "data/datos_entrenamiento_modelo.csv")
 
@@ -124,8 +124,8 @@ if st.button("Predict"):
 
         with open(ruta_modelo, 'rb') as file:
             model = pickle.load(file)
-        inv_ref = inventario[inventario["Cod. Artículo"]==reference]["Stock unidades"].sum()
-        ped_ref = pedidos[pedidos["Producto"]==reference]["Cantidad"].sum()
+        inv_ref = inventario[inventario["Cod. Artículo"]==reference]["Stock unidades"].str.replace(',', '.').astype(float).sum()
+        ped_ref = pedidos[pedidos["Producto"]==reference]["Cantidad"].str.replace(',', '.').astype(float).sum()
 
 
         st.write("Realizando predicciones ...")
