@@ -36,8 +36,8 @@ def update_models(lista_referencias, data_path, add_constant=1e-6):
         referencia_df.index = pd.to_datetime(referencia_df.index)
 
         # Create a complete weekly index
-        all_weeks = pd.date_range(start=referencia_df.index.min(), end=referencia_df.index.max(), freq='W')
-        referencia_df = referencia_df.reindex(all_weeks, fill_value=0)
+        #all_weeks = pd.date_range(start=referencia_df.index.min(), end=referencia_df.index.max(), freq='W')
+        #referencia_df = referencia_df.reindex(all_weeks, fill_value=0)
 
         # Ensure all values are strictly positive by adding a small constant
         referencia_df['Cantidad'] = referencia_df['Cantidad'] + add_constant
