@@ -8,6 +8,7 @@ from statsmodels.tsa.stattools import adfuller
 from sklearn.metrics import mean_squared_error, r2_score, mean_absolute_percentage_error
 import pickle
 import os
+import subprocess
 
 def eval_model(model,tr,tst,name='Model',lags=12):
     lb = np.mean(sm.stats.acorr_ljungbox(model.resid, lags=lags, return_df=True).lb_pvalue)
@@ -148,6 +149,10 @@ def update_stock(csv):
         # Guardar el archivo CSV en el directorio 'data'
         inventario.to_csv("data/inventario.csv", index=False)
         print("Archivo guardado en data/inventario.csv")
+        # Agregar y hacer commit del archivo al repositorio de Git
+        subprocess.run(["git", "add", "data/inventario.csv"], check=True)
+        subprocess.run(["git", "commit", "-m", "Actualizar inventario"], check=True)
+        subprocess.run(["git", "push"], check=True)
     except Exception as e:
         print(f"Error al guardar el archivo: {e}")
 
