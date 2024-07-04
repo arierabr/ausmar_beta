@@ -57,7 +57,7 @@ with st.sidebar:
         color = 'red'
 
     st.markdown(f'<div style="background-color: {color}; padding: 10px;">'
-                f'<p>Últimos datos de la semana: {week_DB}</p>'
+                f'<p>Semana de actualización: {week_DB}</p>'
                 f'<p>Semana actual: {week_today}</p>'
                 '</div>', unsafe_allow_html=True)
 
@@ -65,11 +65,13 @@ with st.sidebar:
     new_data = st.file_uploader("Añadir datos recientes", type=["csv"])
     if new_data is not None:
         f.update_df("data/datos_entrenamiento_modelo.csv",new_data)
+        st.success("Archivo importado con éxito")
 
 
     df_all_data = st.file_uploader("Refrescar todos los datos", type=["csv"])
     if df_all_data is not None:
         f.refresh_all_data(df_all_data)
+        st.success("Archivo importado con éxito")
 
 
     st.header('2. Importar pedidos e inventarios')
@@ -78,12 +80,12 @@ with st.sidebar:
     file_pedidos = st.file_uploader("Pedidos hasta la fecha de hoy", type=["csv"])
     if file_pedidos is not None:
         f.update_pedidos(file_pedidos)
-        st.success("Archivo de pedidos actualizado y guardado en data/pedidos.csv")
+        st.success("Archivo de pedidos importado con éxito")
 
     file_inventario = st.file_uploader("Inventario actual", type=["csv"])
     if file_inventario is not None:
         f.update_stock(file_inventario)
-        st.success("Archivo de pedidos actualizado y guardado en data/pedidos.csv")
+        st.success("Archivo de inventario importado con éxito")
 
 
     st.header('3. Seleccionar producto')
