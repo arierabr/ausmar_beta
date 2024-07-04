@@ -153,13 +153,26 @@ def update_stock(csv):
 
         # Guardar el archivo CSV en el directorio 'data'
         inventario.to_csv("data/inventario.csv", index=False)
-
-        # Agregar y hacer commit del archivo al repositorio de Git
-        subprocess.run(["git", "add", "data/inventario.csv"], check=True)
-        subprocess.run(["git", "commit", "-m", "Actualizar inventario"], check=True)
-        subprocess.run(["git", "push"], check=True)
-
         print("Archivo guardado en data/inventario.csv")
+        # Usar GitPython para hacer commit y push al repositorio de GitHub
+        repo = git.Repo('.')
+        repo.git.add('data/inventario.csv')
+        repo.index.commit('Actualizar inventario')
+
+        # Obtener el token de acceso personal desde la variable de entorno
+        token = os.getenv('GITHUB_TOKEN')
+        if token is None:
+            raise ValueError("El token de GitHub no está configurado como variable de entorno.")
+
+       # Configurar la URL remota con el token
+        repo_url = f"https://{token}@github.com/arierabr/ausmar_beta.git"  # Reemplaza 'usuario' y 'repo' con tus valores
+        origin = repo.remote(name='origin')
+        origin.set_url(repo_url)
+
+        # Hacer push al repositorio remoto
+        origin.push()
+        print("Archivo subido al repositorio de GitHub")
+
     except Exception as e:
         print(f"Error al guardar el archivo: {e}")
 
