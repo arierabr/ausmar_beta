@@ -148,11 +148,13 @@ def update_stock(csv):
 
         # Guardar el archivo CSV en el directorio 'data'
         inventario.to_csv("data/inventario.csv", index=False)
-        print("Archivo guardado en data/inventario.csv")
+
         # Agregar y hacer commit del archivo al repositorio de Git
         subprocess.run(["git", "add", "data/inventario.csv"], check=True)
         subprocess.run(["git", "commit", "-m", "Actualizar inventario"], check=True)
         subprocess.run(["git", "push"], check=True)
+
+        print("Archivo guardado en data/inventario.csv")
     except Exception as e:
         print(f"Error al guardar el archivo: {e}")
 
