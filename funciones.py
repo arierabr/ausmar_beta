@@ -9,6 +9,11 @@ from sklearn.metrics import mean_squared_error, r2_score, mean_absolute_percenta
 import pickle
 import os
 import subprocess
+import git
+
+
+
+
 
 def eval_model(model,tr,tst,name='Model',lags=12):
     lb = np.mean(sm.stats.acorr_ljungbox(model.resid, lags=lags, return_df=True).lb_pvalue)
