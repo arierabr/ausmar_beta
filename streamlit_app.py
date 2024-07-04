@@ -148,7 +148,7 @@ if st.button("Predict"):
                  f"Pedidos realizados: {ped_ref}.\n")
         #st.header(f"Comprar {prediction01+prediction02-inv_ref-ped_ref} unidades de {reference}")
 
-    st.write(status)
+
 
 
 
