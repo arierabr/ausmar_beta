@@ -189,7 +189,8 @@ with st.expander('Resultados'):
     for key, value in data.items():
         st.markdown(f"| {key} | {value} |")
 
-    st.title('Datos estadísticos del modelo', divider='rainbow')
+
+    st.markdown("# Datos estadísticos del modelo")
 
     consumos = pd.read_csv('data/datos_entrenamiento_modelo.csv')
 
