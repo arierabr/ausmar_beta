@@ -156,7 +156,7 @@ if st.button("Predict"):
 
         #st.header(f"Comprar {prediction01+prediction02-inv_ref-ped_ref} unidades de {reference}")
 
-if st.button("Predict"):
+if st.button("Predictbeta"):
 
     with st.spinner("Corriendo ..."):
         # Ejecutar el proceso de predicción y carga de datos
