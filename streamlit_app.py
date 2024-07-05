@@ -174,7 +174,7 @@ with st.expander('ML Visualizer'):
 
     consumos.set_index(['Semana'], inplace=True)
     consumos.index = pd.to_datetime(consumos.index)
-    st.write(consumos.tail())
+    st.table(consumos.tail())
 
     # Plotting with Altair
     chart = alt.Chart(consumos.reset_index()).mark_line().encode(
