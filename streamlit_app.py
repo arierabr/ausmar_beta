@@ -112,51 +112,8 @@ elif file_inventario is None or file_pedidos is None:
 
 
 
+
 if st.button("Predict"):
-
-    with (st.status("Corriendo ...", expanded=True) as status):
-
-        f.update_models(options, "data/datos_entrenamiento_modelo.csv")
-
-        st.write("Cargando datos ...")
-        time.sleep(sleep_time)
-
-        ruta_modelo = f"modelos/hw_mul_model_{reference}.pkl"
-        inventario = pd.read_csv("data/inventario.csv")
-        pedidos = pd.read_csv("data/pedidos.csv")
-        week_plus1 = current_date + datetime.timedelta(days=7)
-        week_plus2 = current_date + datetime.timedelta(days=14)
-        week_plus1_str = week_plus1.strftime("%Y-%m-%d")
-        week_plus2_str = week_plus2.strftime("%Y-%m-%d")
-
-        st.write("Preparando modelo ...")
-        time.sleep(sleep_time)
-
-        with open(ruta_modelo, 'rb') as file:
-            model = pickle.load(file)
-        inv_ref = inventario[inventario["Cod. Artículo"]==reference]["Stock unidades"].str.replace(',', '.').astype(float).sum()
-        ped_ref = pedidos[pedidos["Producto"]==reference]["Cantidad"].str.replace(',', '.').astype(float).sum()
-
-
-        st.write("Realizando predicciones ...")
-        time.sleep(sleep_time)
-
-        prediction01 = model.predict(week_plus1_str)[0].round(0)
-        prediction02 = model.predict(week_plus2_str)[0].round(0)
-        total = prediction01 + prediction02 - inv_ref - ped_ref
-        if total < 0:
-            total = 0
-
-
-
-        st.write("Obteniendo resultados ...")
-        time.sleep(sleep_time)
-
-        status.update(label="Status", state="complete", expanded=False)
-
-        #st.header(f"Comprar {prediction01+prediction02-inv_ref-ped_ref} unidades de {reference}")
-
-if st.button("Predictbeta"):
 
     with st.spinner("Corriendo ..."):
         # Ejecutar el proceso de predicción y carga de datos
@@ -200,8 +157,6 @@ if st.button("Predictbeta"):
 
         # Mostrar los resultados finales
 
-        st.header("Resultados")
-
         data = {
             f"Consumos semana {week_today + 1}": prediction01,
             f"Consumos semana {week_today + 2}": prediction02,
@@ -214,48 +169,29 @@ if st.button("Predictbeta"):
         for key, value in data.items():
             st.write(f"- **{key}**: {value}")
 
+        st.markdown("# Datos estadísticos del modelo")
+
+        consumos = pd.read_csv('data/datos_entrenamiento_modelo.csv')
+
+        consumos = consumos[consumos["Producto"] == reference].groupby("Semana")["Cantidad"].sum().reset_index()
+
+        consumos.set_index(['Semana'], inplace=True)
+        consumos.index = pd.to_datetime(consumos.index)
+        st.table(consumos.tail())
+
+        # Plotting with Altair
+        chart = alt.Chart(consumos.reset_index()).mark_line().encode(
+            x='Semana:T',
+            y='Cantidad:Q'
+        ).properties(
+            width=800,
+            height=400
+        )
+
+        # Display the Altair chart in Streamlit
+        st.altair_chart(chart, use_container_width=True)
 
 
 
-#Estudio del modelo de Machine learning
 
-with st.expander('Expandir informe'):
-
-    # Streamlit app code
-    st.title("Informe")
-
-    data = {
-        f"Consumos semana {week_today +1 }": prediction01,
-        f"Consumos semana {week_today +2}": prediction02,
-        "Stock disponible": inv_ref,
-        "Pedidos por llegar": ped_ref,
-        "Recomendación de compra": total
-    }
-    # Display key-value pairs using Markdown
-    st.write("### Tabla de resultados")
-    for key, value in data.items():
-        st.write(f"- **{key}**: {value}")
-
-
-    st.markdown("# Datos estadísticos del modelo")
-
-    consumos = pd.read_csv('data/datos_entrenamiento_modelo.csv')
-
-    consumos = consumos[consumos["Producto"] == reference].groupby("Semana")["Cantidad"].sum().reset_index()
-
-    consumos.set_index(['Semana'], inplace=True)
-    consumos.index = pd.to_datetime(consumos.index)
-    st.table(consumos.tail())
-
-    # Plotting with Altair
-    chart = alt.Chart(consumos.reset_index()).mark_line().encode(
-        x='Semana:T',
-        y='Cantidad:Q'
-    ).properties(
-        width=800,
-        height=400
-    )
-
-    # Display the Altair chart in Streamlit
-    st.altair_chart(chart, use_container_width=True)
 
