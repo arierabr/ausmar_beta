@@ -73,11 +73,12 @@ with st.sidebar:
         df = f.import_data(df_all_data)
         st.success("Archivo importado con éxito")
 
-    if st.button("Load Data") and False:
-        try:
-            f.load_data(df)
-        except Exception as e:
-            print(f"Error al cargar los datos: {e}")
+    if (df_all_data is not None) or (new_data is not None):
+        if st.button("Load Data"):
+            try:
+                f.load_data(df)
+            except Exception as e:
+                print(f"Error al cargar los datos: {e}")
 
 
     st.header('2. Importar pedidos e inventarios')
