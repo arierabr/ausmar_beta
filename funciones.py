@@ -128,6 +128,8 @@ def import_data(csv):
 
 
 def load_data(df):
+
+
     try:
 
         # Asegurarse de que el directorio 'data' existe

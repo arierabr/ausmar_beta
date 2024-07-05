@@ -73,7 +73,7 @@ with st.sidebar:
         df = f.import_data(df_all_data)
         st.success("Archivo importado con éxito")
 
-    if st.button("Load Data"):
+    if st.button("Load Data") and False:
         try:
             f.load_data(df)
         except Exception as e:
