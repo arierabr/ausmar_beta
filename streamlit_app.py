@@ -64,7 +64,7 @@ with st.sidebar:
 
     new_data = st.file_uploader("Añadir datos recientes", type=["csv"])
     if new_data is not None:
-        df = f.update_df("data/datos_entrenamiento_modelo.csv",new_data)
+        df = f.update_df("data/datos_entrenamiento_modelo.csv", new_data)
         st.success("Archivo importado con éxito")
 
 

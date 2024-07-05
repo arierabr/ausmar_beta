@@ -91,19 +91,17 @@ def update_df(data_path, new_csv):
 
     df_new = df_new[["Semana", "Almacen", "Producto", "Cantidad"]]
 
-    if df["Semana"].max() < df_new["Semana"].min():
+    if True:#df["Semana"].max() < df_new["Semana"].min():
 
         # Concatenar los DataFrames verticalmente
         df_updated = pd.concat([df, df_new], ignore_index=True)
     else:
-
         df_updated = df
     return df_updated
 
 
 
 def import_data(csv):
-
     # Leer el archivo CSV subido
     df = pd.read_csv(csv, encoding="latin1", header=0, sep=";")
     # Corregimos el nombre de las columnas:
@@ -126,7 +124,7 @@ def import_data(csv):
 
     df = df[["Semana", "Almacen", "Producto", "Cantidad"]]
 
-    return df
+    return df_new
 
 
 def load_data(df):
