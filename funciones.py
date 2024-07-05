@@ -124,7 +124,7 @@ def import_data(csv):
 
     df = df[["Semana", "Almacen", "Producto", "Cantidad"]]
 
-    return df_new
+    return df
 
 
 def load_data(df):
