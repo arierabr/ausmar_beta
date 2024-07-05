@@ -141,8 +141,13 @@ if st.button("Predict"):
         st.write("Realizando predicciones ...")
         time.sleep(sleep_time)
 
-        prediction01 = model.predict(week_plus1_str)[0].round(0)
-        prediction02 = model.predict(week_plus2_str)[0].round(0)
+        prediction01 = model.predict(week_plus1_str)[0].round(0).astype(float)
+        prediction02 = model.predict(week_plus2_str)[0].round(0).astype(float)
+        total = prediction01 + prediction02 - inv_ref - ped_ref
+        if total < 0:
+            total = 0
+
+
 
         st.write("Obteniendo resultados ...")
         time.sleep(sleep_time)
@@ -164,9 +169,27 @@ if st.button("Predict"):
 
 #Estudio del modelo de Machine learning
 
-with st.expander('ML Visualizer'):
+with st.expander('Resultados'):
 
-    st.header('Estudio Descriptivo', divider='rainbow')
+    # Streamlit app code
+    st.title("Resultados")
+
+    data = {
+        f"Consumos semana {week_today +1}": prediction01,
+        f"Consumos semana {week_today +2}": prediction02,
+        "Stock disponible": inv_ref,
+        "Pedidos por llegar": ped_ref,
+        "Recomendación de compra": total
+    }
+    # Alternatively, use Markdown directly for more control over formatting
+    st.markdown("---")
+    st.markdown("### Detailed Metrics")
+    st.markdown("| Metric | Value |")
+    st.markdown("| --- | --- |")
+    for key, value in data.items():
+        st.markdown(f"| {key} | {value} |")
+
+    st.title('Datos estadísticos del modelo', divider='rainbow')
 
     consumos = pd.read_csv('data/datos_entrenamiento_modelo.csv')
 
