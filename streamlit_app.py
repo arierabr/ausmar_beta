@@ -154,25 +154,62 @@ if st.button("Predict"):
 
         status.update(label="Status", state="complete", expanded=False)
 
-        st.write(f"Consumo semana {week_today +1} fecha {week_plus1_str}: {prediction01}. \n"
-                 f"Consumo semana {week_today +2} fecha {week_plus2_str}: {prediction02}. \n"
-                 f"Inventario disponible: {inv_ref}.\n"
-                 f"Pedidos realizados: {ped_ref}.\n")
         #st.header(f"Comprar {prediction01+prediction02-inv_ref-ped_ref} unidades de {reference}")
 
+if st.button("Predict"):
 
+    with st.spinner("Corriendo ..."):
+        # Ejecutar el proceso de predicción y carga de datos
+        f.update_models(options, "data/datos_entrenamiento_modelo.csv")
 
+        st.write("Cargando datos ...")
+        time.sleep(sleep_time)
 
+        ruta_modelo = f"modelos/hw_mul_model_{reference}.pkl"
+        inventario = pd.read_csv("data/inventario.csv")
+        pedidos = pd.read_csv("data/pedidos.csv")
+        week_plus1 = current_date + datetime.timedelta(days=7)
+        week_plus2 = current_date + datetime.timedelta(days=14)
+        week_plus1_str = week_plus1.strftime("%Y-%m-%d")
+        week_plus2_str = week_plus2.strftime("%Y-%m-%d")
+
+        st.write("Preparando modelo ...")
+        time.sleep(sleep_time)
+
+        with open(ruta_modelo, 'rb') as file:
+            model = pickle.load(file)
+
+        inv_ref = inventario[inventario["Cod. Artículo"] == reference]["Stock unidades"].str.replace(',', '.').astype(
+            float).sum()
+        ped_ref = pedidos[pedidos["Producto"] == reference]["Cantidad"].str.replace(',', '.').astype(float).sum()
+
+        st.write("Realizando predicciones ...")
+        time.sleep(sleep_time)
+
+        prediction01 = model.predict(week_plus1_str)[0].round(0)
+        prediction02 = model.predict(week_plus2_str)[0].round(0)
+        total = prediction01 + prediction02 - inv_ref - ped_ref
+        if total < 0:
+            total = 0
+
+        st.write("Obteniendo resultados ...")
+        time.sleep(sleep_time)
+
+        # Mostrar resultado final
+        st.success("Proceso de predicción completado correctamente.")
+
+        # Mostrar los resultados finales
+        st.header(f"Comprar {prediction01 + prediction02 - inv_ref - ped_ref} unidades de {reference}")
 
 
 
 
 #Estudio del modelo de Machine learning
 
-with st.expander('Resultados'):
+with st.expander('Expandir informe'):
 
     # Streamlit app code
-    st.title("Resultados")
+    st.title("Informe")
 
     data = {
         f"Consumos semana {week_today +1 }": prediction01,
@@ -182,17 +219,9 @@ with st.expander('Resultados'):
         "Recomendación de compra": total
     }
     # Display key-value pairs using Markdown
-    st.write("### Metrics Overview")
+    st.write("### Tabla de resultados")
     for key, value in data.items():
         st.write(f"- **{key}**: {value}")
-
-    # Alternatively, use Markdown directly for more control over formatting
-    st.markdown("---")
-    st.markdown("### Detailed Metrics")
-    st.markdown("| Metric | Value |")
-    st.markdown("| --- | --- |")
-    for key, value in data.items():
-        st.markdown(f"| {key} | {value} |")
 
 
     st.markdown("# Datos estadísticos del modelo")
