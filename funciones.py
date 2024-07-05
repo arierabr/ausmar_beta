@@ -103,27 +103,60 @@ def update_df(data_path, new_csv):
 
 
 def refresh_all_data(csv):
-    df = pd.read_csv(csv, encoding="latin1", header=0, sep=";")
-    # Corregimos el nombre de las columnas:
-    df.columns = [
-        'Fecha', 'Dia semana', 'Estado doc.', 'Almacen', 'Producto', 'Subfamilia',
-        'Nº productos', 'Nº Documentos', 'Nº items (lineas)', 'Cantidad', 'Importe bruto (euro)',
-        'Importe dto. (euro)', '% Dto. Efectivo', 'Importe (euro)', 'Margen Efectivo (euro)',
-        'Coste total (euro)', '% Margen Efectivo', 'Unnamed: 17']
 
-    # Convertimos la columna 'Fecha' a tipo datetime
-    df['Fecha'] = pd.to_datetime(df['Fecha'], format="%d/%m/%Y")
-    df['Cantidad'] = df['Cantidad'].str.replace(',', '.')
-    df['Cantidad'] = df['Cantidad'].astype('float')
+    try:
+        # Leer el archivo CSV subido
+        df = pd.read_csv(csv, encoding="latin1", header=0, sep=";")
+        # Corregimos el nombre de las columnas:
+        df.columns = [
+            'Fecha', 'Dia semana', 'Estado doc.', 'Almacen', 'Producto', 'Subfamilia',
+            'Nº productos', 'Nº Documentos', 'Nº items (lineas)', 'Cantidad', 'Importe bruto (euro)',
+            'Importe dto. (euro)', '% Dto. Efectivo', 'Importe (euro)', 'Margen Efectivo (euro)',
+            'Coste total (euro)', '% Margen Efectivo', 'Unnamed: 17']
 
-    # Ajustamos las fechas para que el día sea el primer día de la semana (lunes)
-    df['Semana'] = df['Fecha'] - pd.to_timedelta(df['Fecha'].dt.dayofweek, unit='D')
+        # Convertimos la columna 'Fecha' a tipo datetime
+        df['Fecha'] = pd.to_datetime(df['Fecha'], format="%d/%m/%Y")
+        df['Cantidad'] = df['Cantidad'].str.replace(',', '.')
+        df['Cantidad'] = df['Cantidad'].astype('float')
 
-    # Pasamos todos los valores a absoluto:
-    df["Cantidad"] = df["Cantidad"].abs()
+        # Ajustamos las fechas para que el día sea el primer día de la semana (lunes)
+        df['Semana'] = df['Fecha'] - pd.to_timedelta(df['Fecha'].dt.dayofweek, unit='D')
 
-    df = df[["Semana", "Almacen", "Producto", "Cantidad"]]
-    df.to_csv("data/datos_entrenamiento_modelo.csv")
+        # Pasamos todos los valores a absoluto:
+        df["Cantidad"] = df["Cantidad"].abs()
+
+        df = df[["Semana", "Almacen", "Producto", "Cantidad"]]
+
+        # Asegurarse de que el directorio 'data' existe
+        if not os.path.exists('data'):
+            os.makedirs('data')
+
+        # Guardar el archivo CSV en el directorio 'data'
+        df.to_csv("data/datos_entrenamiento_modelo.csv", index=False)
+        print("Archivo guardado en data/datos_entrenamiento_modelo.csv")
+
+        # Usar GitPython para hacer commit y push al repositorio de GitHub
+        repo = git.Repo('.')
+        repo.git.add('data/datos_entrenamiento_modelo.csv')
+        repo.index.commit('Actualizar datos de entrenamiento')
+
+        # Obtener el token de acceso personal desde la variable de entorno
+        token = os.getenv('GITHUB_TOKEN')
+        if token is None:
+            raise ValueError("El token de GitHub no está configurado como variable de entorno.")
+
+        # Configurar la URL remota con el token
+        repo_url = f"https://{token}@github.com/arierabr/ausmar_beta.git"  # Reemplaza 'usuario' y 'repo' con tus valores
+        origin = repo.remote(name='origin')
+        origin.set_url(repo_url)
+
+        # Hacer push al repositorio remoto
+        origin.push()
+        print("Archivo subido al repositorio de GitHub")
+
+    except Exception as e:
+        print(f"Error al guardar el archivo: {e}")
+
 
 
 def update_pedidos(csv):
