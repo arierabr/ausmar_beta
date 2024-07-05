@@ -199,7 +199,20 @@ if st.button("Predictbeta"):
         st.success("Proceso de predicción completado correctamente.")
 
         # Mostrar los resultados finales
-        st.header(f"Comprar {prediction01 + prediction02 - inv_ref - ped_ref} unidades de {reference}")
+
+        st.header("Resultados")
+
+        data = {
+            f"Consumos semana {week_today + 1}": prediction01,
+            f"Consumos semana {week_today + 2}": prediction02,
+            "Stock disponible": inv_ref,
+            "Pedidos por llegar": ped_ref,
+            "Recomendación de compra": total
+        }
+        # Display key-value pairs using Markdown
+        st.write("### Tabla de resultados")
+        for key, value in data.items():
+            st.write(f"- **{key}**: {value}")
 
 
 
