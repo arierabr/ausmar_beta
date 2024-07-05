@@ -15,7 +15,7 @@ import funciones as f
 
 
 # Page title
-st.set_page_config(page_title='AUSMAR Prediction Model', page_icon='🦺')
+st.set_page_config(page_title='AUSMAR Prediction Model test', page_icon='🦺')
 st.title('🦺 AUSMAR SL - Stock Prediction Model')
 
 with st.expander('Información para el usuario'):
