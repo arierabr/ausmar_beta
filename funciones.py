@@ -98,34 +98,39 @@ def update_df(data_path, new_csv):
     else:
 
         df_updated = df
+    return df_updated
 
-    df_updated.to_csv("data/datos_entrenamiento_modelo.csv")
 
 
-def refresh_all_data(csv):
+def import_data(csv):
 
+    # Leer el archivo CSV subido
+    df = pd.read_csv(csv, encoding="latin1", header=0, sep=";")
+    # Corregimos el nombre de las columnas:
+    df.columns = [
+        'Fecha', 'Dia semana', 'Estado doc.', 'Almacen', 'Producto', 'Subfamilia',
+        'Nº productos', 'Nº Documentos', 'Nº items (lineas)', 'Cantidad', 'Importe bruto (euro)',
+        'Importe dto. (euro)', '% Dto. Efectivo', 'Importe (euro)', 'Margen Efectivo (euro)',
+        'Coste total (euro)', '% Margen Efectivo', 'Unnamed: 17']
+
+    # Convertimos la columna 'Fecha' a tipo datetime
+    df['Fecha'] = pd.to_datetime(df['Fecha'], format="%d/%m/%Y")
+    df['Cantidad'] = df['Cantidad'].str.replace(',', '.')
+    df['Cantidad'] = df['Cantidad'].astype('float')
+
+    # Ajustamos las fechas para que el día sea el primer día de la semana (lunes)
+    df['Semana'] = df['Fecha'] - pd.to_timedelta(df['Fecha'].dt.dayofweek, unit='D')
+
+    # Pasamos todos los valores a absoluto:
+    df["Cantidad"] = df["Cantidad"].abs()
+
+    df = df[["Semana", "Almacen", "Producto", "Cantidad"]]
+
+    return df
+
+
+def load_data(df):
     try:
-        # Leer el archivo CSV subido
-        df = pd.read_csv(csv, encoding="latin1", header=0, sep=";")
-        # Corregimos el nombre de las columnas:
-        df.columns = [
-            'Fecha', 'Dia semana', 'Estado doc.', 'Almacen', 'Producto', 'Subfamilia',
-            'Nº productos', 'Nº Documentos', 'Nº items (lineas)', 'Cantidad', 'Importe bruto (euro)',
-            'Importe dto. (euro)', '% Dto. Efectivo', 'Importe (euro)', 'Margen Efectivo (euro)',
-            'Coste total (euro)', '% Margen Efectivo', 'Unnamed: 17']
-
-        # Convertimos la columna 'Fecha' a tipo datetime
-        df['Fecha'] = pd.to_datetime(df['Fecha'], format="%d/%m/%Y")
-        df['Cantidad'] = df['Cantidad'].str.replace(',', '.')
-        df['Cantidad'] = df['Cantidad'].astype('float')
-
-        # Ajustamos las fechas para que el día sea el primer día de la semana (lunes)
-        df['Semana'] = df['Fecha'] - pd.to_timedelta(df['Fecha'].dt.dayofweek, unit='D')
-
-        # Pasamos todos los valores a absoluto:
-        df["Cantidad"] = df["Cantidad"].abs()
-
-        df = df[["Semana", "Almacen", "Producto", "Cantidad"]]
 
         # Asegurarse de que el directorio 'data' existe
         if not os.path.exists('data'):
@@ -156,7 +161,6 @@ def refresh_all_data(csv):
 
     except Exception as e:
         print(f"Error al guardar el archivo: {e}")
-
 
 
 def update_pedidos(csv):

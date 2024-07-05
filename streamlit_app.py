@@ -64,14 +64,20 @@ with st.sidebar:
 
     new_data = st.file_uploader("Añadir datos recientes", type=["csv"])
     if new_data is not None:
-        f.update_df("data/datos_entrenamiento_modelo.csv",new_data)
+        df = f.update_df("data/datos_entrenamiento_modelo.csv",new_data)
         st.success("Archivo importado con éxito")
 
 
     df_all_data = st.file_uploader("Refrescar todos los datos", type=["csv"])
     if df_all_data is not None:
-        f.refresh_all_data(df_all_data)
+        df = f.import_data(df_all_data)
         st.success("Archivo importado con éxito")
+
+    if st.button("Load Data"):
+        try:
+            f.load_data(df)
+        except Exception as e:
+            print(f"Error al cargar los datos: {e}")
 
 
     st.header('2. Importar pedidos e inventarios')
