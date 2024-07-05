@@ -169,7 +169,7 @@ if st.button("Predict"):
         for key, value in data.items():
             st.write(f"- **{key}**: {value}")
 
-        st.markdown("# Datos estadísticos del modelo")
+        st.markdown("### Datos estadísticos del modelo")
 
         consumos = pd.read_csv('data/datos_entrenamiento_modelo.csv')
 
