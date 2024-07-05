@@ -181,6 +181,11 @@ with st.expander('Resultados'):
         "Pedidos por llegar": ped_ref,
         "Recomendación de compra": total
     }
+    # Display key-value pairs using Markdown
+    st.write("### Metrics Overview")
+    for key, value in data.items():
+        st.write(f"- **{key}**: {value}")
+
     # Alternatively, use Markdown directly for more control over formatting
     st.markdown("---")
     st.markdown("### Detailed Metrics")
