@@ -113,6 +113,15 @@ elif file_inventario is None or file_pedidos is None:
 
 st.markdown('### Valores entrada:')
 
+val_entrada = {"Productos":["REF001","REF002"],
+               "Cantidad datos entrenamiento":[266,300],
+               "Fecha últimos datos entrenamiento":["02/06/2024","05/06/2024"],
+               "Rango temporal de datos (en años)":[2.4,2.3],
+               "Actualización inventario":["02/06/2024","05/06/2024"],
+
+               }
+st.table(val_entrada)
+
 if st.button("Predict"):
 
     with st.spinner("Corriendo ..."):
