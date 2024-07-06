@@ -137,14 +137,14 @@ if st.button("Predict"):
             model = pickle.load(file)
 
         inv_ref = inventario[inventario["Cod. Artículo"] == reference]["Stock unidades"].str.replace(',', '.').astype(
-            float).sum()
-        ped_ref = pedidos[pedidos["Producto"] == reference]["Cantidad"].str.replace(',', '.').astype(float).sum()
+            float).sum().astype(int)
+        ped_ref = pedidos[pedidos["Producto"] == reference]["Cantidad"].str.replace(',', '.').astype(float).sum().astype(int)
 
         st.write("Realizando predicciones ...")
         time.sleep(sleep_time)
 
         prediction01 = model.predict(week_plus1_str)[0].round(0).astype(int)
-        prediction02 = model.predict(week_plus2_str)[0].round(0)
+        prediction02 = model.predict(week_plus2_str)[0].round(0).astype(int)
         total = prediction01 + prediction02 - inv_ref - ped_ref
         if total < 0:
             total = 0
