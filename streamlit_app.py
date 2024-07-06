@@ -81,6 +81,7 @@ with st.sidebar:
                 print(f"Error al cargar los datos: {e}")
 
 
+
     st.header('2. Importar pedidos e inventarios')
 
     # Subir archivo de pedidos
@@ -111,14 +112,12 @@ elif file_inventario is None or file_pedidos is None:
                'Las recomendaciones de compra pueden no ser precisas.')
 
 
-st.markdown('### Valores entrada:')
+st.markdown('### Datos para la predicción:')
 
 val_entrada = {"Productos":["REF001","REF002"],
-               "Cantidad datos entrenamiento":[266,300],
-               "Fecha últimos datos entrenamiento":["02/06/2024","05/06/2024"],
-               "Rango temporal de datos (en años)":[2.4,2.3],
-               "Actualización inventario":["02/06/2024","05/06/2024"],
-
+               "Machine Learning Model":["WH Multiplicativo","WH Multiplicativo"],
+               "# Datos entrenamiento":[266,300],
+               "LjungBox p-value":[0.3, 0.5]
                }
 st.table(val_entrada)
 
