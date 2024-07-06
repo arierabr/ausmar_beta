@@ -124,11 +124,15 @@ st.table(val_entrada)
 if st.button("Predict"):
 
     with st.spinner("Corriendo ..."):
+
+        st.write("Entrenando modelo ...")
+
         # Ejecutar el proceso de predicción y carga de datos
         f.update_models(options, "data/datos_entrenamiento_modelo.csv")
+        time.sleep(3)
 
         st.write("Cargando datos ...")
-        time.sleep(sleep_time)
+        time.sleep(0.5)
 
         ruta_modelo = f"modelos/hw_mul_model_{reference}.pkl"
         inventario = pd.read_csv("data/inventario.csv")

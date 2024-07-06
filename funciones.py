@@ -57,6 +57,24 @@ def update_models(lista_referencias, data_path, add_constant=1e-6):
         with open(model_path, 'wb') as file:
             pickle.dump(hw_mul, file)
 
+        # Usar GitPython para hacer commit y push al repositorio de GitHub
+        repo = git.Repo('.')
+        repo.git.add(model_path)
+        repo.index.commit('Actualizar modelos')
+
+        # Obtener el token de acceso personal desde la variable de entorno
+        token = os.getenv('GITHUB_TOKEN')
+        if token is None:
+            raise ValueError("El token de GitHub no está configurado como variable de entorno.")
+
+        # Configurar la URL remota con el token
+        repo_url = f"https://{token}@github.com/arierabr/ausmar_beta.git"  # Reemplaza 'usuario' y 'repo' con tus valores
+        origin = repo.remote(name='origin')
+        origin.set_url(repo_url)
+
+        # Hacer push al repositorio remoto
+        origin.push()
+        print("Archivo subido al repositorio de GitHub")
 
 def test_stationarity(timeseries):
     # Perform Dickey-Fuller test:
