@@ -181,8 +181,8 @@ if st.button("Predict"):
             recom.append(total)
             inv.append(inv_ref)
             ped.append(ped_ref)
-            Ljung.append()
-            mape.append()
+       #     Ljung.append()
+       #     mape.append()
 
 
         st.write("Obteniendo resultados ...")
@@ -195,9 +195,9 @@ if st.button("Predict"):
             f"Consumos semana {week_today + 2}": pred02,
             "Inventario disponible": inv,
             "Pedidos por llegar": ped,
-            "Recomendación de compra": recom,
-            "P-valor LjunBox": Ljung,
-            "MAPE":mape
+            "Recomendación de compra": recom
+           # "P-valor LjunBox": Ljung,
+           # "MAPE":mape
         }
 
 
