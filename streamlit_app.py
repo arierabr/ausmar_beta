@@ -122,7 +122,6 @@ input_count = []
 for r in references:
     input_datos = pd.read_csv("data/datos_entrenamiento_modelo.csv")
     input_ref.append(r)
-    #input_datos[input_datos["Producto"] == r]["Producto"].count()
     input_count.append(input_datos[input_datos["Producto"] == r]["Producto"].count())
 
 
@@ -166,8 +165,16 @@ if st.button("Predict"):
         Ljung = []
         mape =[]
 
-
+        datos_plot = pd.read_csv("data/datos_entrenamiento_modelo.csv")
         for reference in references:
+
+            datos_plot_ref = datos_plot[datos_plot["Producto"] == reference].groupby('Semana')['Cantidad'].sum().reset_index()
+            datos_plot_ref.set_index(['Semana'], inplace=True)
+            datos_plot_ref.index = pd.to_datetime(datos_plot_ref.index)
+            tr = datos_plot_ref[:'2024-01-08']
+            tst = datos_plot_ref['2024-01-15':]
+
+
 
             ruta_modelo = f"modelos/hw_mul_model_{reference}.pkl"
             with open(ruta_modelo, 'rb') as file:
@@ -183,6 +190,10 @@ if st.button("Predict"):
             if total < 0:
                 total = 0
 
+
+
+            fig, ljung_box_p_value, mape_value = f.eval_model02(model, tr, tst, name=reference)
+
             productos.append(reference)
             pred00.append(prediction00)
             pred01.append(prediction01)
@@ -190,8 +201,11 @@ if st.button("Predict"):
             recom.append(total)
             inv.append(inv_ref)
             ped.append(ped_ref)
-       #     Ljung.append()
-       #     mape.append()
+            Ljung.append(ljung_box_p_value)
+            mape.append(mape_value)
+
+            st.write(f"Results for {reference}:")
+            st.pyplot(fig)
 
 
         st.write("Obteniendo resultados ...")
@@ -204,9 +218,9 @@ if st.button("Predict"):
             f"Consumos semana {week_today + 2}": pred02,
             "Inventario disponible": inv,
             "Pedidos por llegar": ped,
-            "Recomendación de compra": recom
-           # "P-valor LjunBox": Ljung,
-           # "MAPE":mape
+            "Recomendación de compra": recom,
+            "P-valor LjunBox": Ljung,
+            "MAPE":mape
         }
 
 

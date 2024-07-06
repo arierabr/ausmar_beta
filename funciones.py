@@ -31,6 +31,25 @@ def eval_model(model,tr,tst,name='Model',lags=12):
     print(lb)
 
 
+def eval_model02(model, tr, tst, name='Model', lags=12):
+    lb = np.mean(sm.stats.acorr_ljungbox(model.resid, lags=lags, return_df=True).lb_pvalue)
+    pred = model.forecast(steps=len(tst))
+
+    fig1, ax = plt.subplots()
+    ax.plot(tr, label='training')
+    ax.plot(tst, label='test')
+    ax.plot(pred, label='prediction')
+    plt.legend(loc='upper left')
+    tit = name + ":  LjungBox p-value --> " + str(lb) + "\n MAPE: " + str(
+        round(mean_absolute_percentage_error(tst, pred) * 100, 2)) + "%"
+    plt.title(tit)
+    plt.ylabel('Cantidad')
+    plt.xlabel('Date')
+
+    plt.close(fig1)  # Close the plot to prevent it from displaying automatically
+
+    return fig1, lb, mean_absolute_percentage_error(tst, pred)
+
 def update_models(lista_referencias, data_path, add_constant=1e-6):
     df = pd.read_csv(data_path)
     for referencia in lista_referencias:
