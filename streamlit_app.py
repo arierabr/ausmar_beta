@@ -111,7 +111,7 @@ elif file_inventario is None or file_pedidos is None:
                'Las recomendaciones de compra pueden no ser precisas.')
 
 
-
+st.markdown('### Valores entrada:')
 
 if st.button("Predict"):
 
@@ -157,7 +157,7 @@ if st.button("Predict"):
 
         # Mostrar los resultados finales
 
-        data = {
+        results = {
             f"Consumos semana {week_today + 1}": prediction01,
             f"Consumos semana {week_today + 2}": prediction02,
             "Stock disponible": inv_ref,
@@ -166,7 +166,7 @@ if st.button("Predict"):
         }
         # Display key-value pairs using Markdown
         st.write("### Tabla de resultados")
-        for key, value in data.items():
+        for key, value in results.items():
             st.write(f"- **{key}**:   {value} unidades")
 
         st.markdown("### Datos estadísticos del modelo")
