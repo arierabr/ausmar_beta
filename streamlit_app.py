@@ -218,7 +218,7 @@ if st.button("Predict"):
             f"Consumos semana {week_today + 2}": pred02,
             "Inventario disponible": inv,
             "Pedidos por llegar": ped,
-            "Recomendación de compra": recom
+            "Recomendación de compra": recom,
             "P-valor LjunBox": Ljung,
             "MAPE":mape
         }
