@@ -115,10 +115,18 @@ elif file_inventario is None or file_pedidos is None:
 
 st.markdown('### Datos para la predicción:')
 
-val_entrada = {"Productos":["REF001","REF002"],
-               "# Datos entrenamiento":[266,300],
-               "LjungBox p-value":[0.3, 0.5],
-               "MAPE (Mean Absolute Percentage Error)":[0,0]
+input_ref = []
+input_count = []
+
+
+for r in references:
+    input_datos = pd.read_csv("data/datos_entrenamiento_modelo.csv")
+    input_ref.append(r)
+    input_count.append(input_datos[input_datos["Producto"]==r].count())
+
+
+val_entrada = {"Productos":input_ref,
+               "# Datos entrenamiento":input_count
                }
 st.table(val_entrada)
 
