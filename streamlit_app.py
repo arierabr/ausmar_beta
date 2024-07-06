@@ -143,7 +143,7 @@ if st.button("Predict"):
         st.write("Realizando predicciones ...")
         time.sleep(sleep_time)
 
-        prediction01 = model.predict(week_plus1_str)[0].round(0)
+        prediction01 = model.predict(week_plus1_str)[0].round(0).astype(int)
         prediction02 = model.predict(week_plus2_str)[0].round(0)
         total = prediction01 + prediction02 - inv_ref - ped_ref
         if total < 0:
@@ -167,7 +167,7 @@ if st.button("Predict"):
         # Display key-value pairs using Markdown
         st.write("### Tabla de resultados")
         for key, value in data.items():
-            st.write(f"- **{key}**: {value}")
+            st.write(f"- **{key}**:   {value} unidades")
 
         st.markdown("### Datos estadísticos del modelo")
 
