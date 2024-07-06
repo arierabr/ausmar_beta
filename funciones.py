@@ -48,7 +48,7 @@ def eval_model02(model, tr, tst, name='Model', lags=12):
 
     plt.close(fig1)  # Close the plot to prevent it from displaying automatically
 
-    return fig1, lb, mean_absolute_percentage_error(tst, pred)
+    return lb, mean_absolute_percentage_error(tst, pred)
 
 def update_models(lista_referencias, data_path, add_constant=1e-6):
     df = pd.read_csv(data_path)

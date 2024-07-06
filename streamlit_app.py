@@ -192,7 +192,7 @@ if st.button("Predict"):
 
 
 
-            fig, ljung_box_p_value, mape_value = f.eval_model02(model, tr, tst, name=reference)
+            ljung_box_p_value, mape_value = f.eval_model02(model, tr, tst, name=reference)
 
             productos.append(reference)
             pred00.append(prediction00)
@@ -205,7 +205,7 @@ if st.button("Predict"):
             mape.append(mape_value)
 
             st.write(f"Results for {reference}:")
-            st.pyplot(fig)
+            #st.pyplot(fig)
 
 
         st.write("Obteniendo resultados ...")
