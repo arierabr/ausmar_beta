@@ -122,11 +122,12 @@ input_count = []
 for r in references:
     input_datos = pd.read_csv("data/datos_entrenamiento_modelo.csv")
     input_ref.append(r)
-    input_count.append(input_datos[input_datos["Producto"]==r].count())
+    #input_datos[input_datos["Producto"] == r]["Producto"].count()
+    input_count.append(input_datos[input_datos["Producto"] == r]["Producto"].count())
 
 
 val_entrada = {"Productos":input_ref,
-               "# Datos entrenamiento":input_count
+               "Cantidad datos para entrenamiento": input_count
                }
 st.table(val_entrada)
 
