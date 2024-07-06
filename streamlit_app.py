@@ -24,13 +24,13 @@ with st.expander('Información para el usuario'):
             'predecir la cantidad de inventario que se va a consumir en las próximas semanas')
 
     st.markdown('**¿Cómo utilizarla?**')
-    st.info('Le recomendamos que se diriga al panel lateral izquierdo y siga los siguientes pasos:\n'
-            '1. Asegúrese que las base de datos está actualizada con los últimos datos de la semana anterior. \n'
-            'En caso contrario, actualice los datos que faltan importando el archivo csv a través '
-            'del botón "actualizar DB". \n'
-            'Si lo desea, puede actualizar completamente la base de datos con la opción "Refrescar DB". \n'
-            '2. Importe el csv de los ultimos datos de comprar del mes y el inventario actualizado. \n'
-            '3. Seleccione la producto del que quiere realizar la modelización. \n')
+    st.info('Le recomendamos que se dirija al panel lateral izquierdo y siga los siguientes pasos:\n'
+            '1. Asegúrese de que las bases de datos para entrenar el modelo están actualizada con los últimos datos de la semana pasada. \n'
+            'En caso contrario, actualice los datos que faltan importando el archivo csv en "Añadir datos recientes". \n'
+            'Si lo desea, puede actualizar por completo la base de datos en "Refrescar todos los datos". \n'
+            '2. Importe el csv de los datos de compra del último mes en "Pedidos recientes". \n'
+            '3. Importe el csv del inventario actual disponible en "Inventario disponible". \n'
+            '3. Seleccione los productos deseados para la predicción de consumos en las proximas dos semana. \n')
 
 
 
@@ -84,12 +84,12 @@ with st.sidebar:
     st.header('2. Importar pedidos e inventarios')
 
     # Subir archivo de pedidos
-    file_pedidos = st.file_uploader("Pedidos hasta la fecha de hoy", type=["csv"])
+    file_pedidos = st.file_uploader("Pedidos recientes", type=["csv"])
     if file_pedidos is not None:
         f.update_pedidos(file_pedidos)
         st.success("Archivo de pedidos importado con éxito")
 
-    file_inventario = st.file_uploader("Inventario actual", type=["csv"])
+    file_inventario = st.file_uploader("Inventario disponible", type=["csv"])
     if file_inventario is not None:
         f.update_stock(file_inventario)
         st.success("Archivo de inventario importado con éxito")
@@ -101,7 +101,7 @@ with st.sidebar:
     reference = st.selectbox('Seleccione el producto', options, index=0)
 
 
-    sleep_time = 1
+    sleep_time = 0.5
 
 if color == 'red':
     st.warning('👈 Porfavor, revise que los datos de aprendizaje estén actualizados, \n'
