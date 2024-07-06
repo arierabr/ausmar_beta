@@ -99,7 +99,7 @@ with st.sidebar:
     st.header('3. Seleccionar producto')
 
     options = ["CA140180","CA140181","CA030009","CA030010","CA161459","CA030008","CA100118"]
-    reference = st.selectbox('Seleccione el producto', options, index=0)
+    references = st.multiselect('Seleccione el producto', options, index=0)
 
 
     sleep_time = 0.5
@@ -128,58 +128,87 @@ if st.button("Predict"):
         st.write("Entrenando modelo ...")
 
         # Ejecutar el proceso de predicción y carga de datos
-        f.update_models(options, "data/datos_entrenamiento_modelo.csv")
-        time.sleep(3)
+        f.update_models(references, "data/datos_entrenamiento_modelo.csv")
+        time.sleep(5)
 
         st.write("Cargando datos ...")
         time.sleep(0.5)
-
-        ruta_modelo = f"modelos/hw_mul_model_{reference}.pkl"
         inventario = pd.read_csv("data/inventario.csv")
         pedidos = pd.read_csv("data/pedidos.csv")
+        week_plus0 = current_date
         week_plus1 = current_date + datetime.timedelta(days=7)
         week_plus2 = current_date + datetime.timedelta(days=14)
+        week_plus0_str = week_plus0.strftime("%Y-%m-%d")
         week_plus1_str = week_plus1.strftime("%Y-%m-%d")
         week_plus2_str = week_plus2.strftime("%Y-%m-%d")
 
-        st.write("Preparando modelo ...")
-        time.sleep(sleep_time)
-
-        with open(ruta_modelo, 'rb') as file:
-            model = pickle.load(file)
-
-        inv_ref = inventario[inventario["Cod. Artículo"] == reference]["Stock unidades"].str.replace(',', '.').astype(
-            float).sum().astype(int)
-        ped_ref = pedidos[pedidos["Producto"] == reference]["Cantidad"].str.replace(',', '.').astype(float).sum().astype(int)
 
         st.write("Realizando predicciones ...")
-        time.sleep(sleep_time)
+        time.sleep(1)
 
-        prediction01 = model.predict(week_plus1_str)[0].round(0).astype(int)
-        prediction02 = model.predict(week_plus2_str)[0].round(0).astype(int)
-        total = prediction01 + prediction02 - inv_ref - ped_ref
-        if total < 0:
-            total = 0
+        productos = []
+        pred00 = []
+        pred01 =[]
+        pred02 = []
+        recom = []
+        inv = []
+        ped = []
+        Ljung = []
+        mape =[]
+
+
+        for reference in references:
+
+            ruta_modelo = f"modelos/hw_mul_model_{reference}.pkl"
+            with open(ruta_modelo, 'rb') as file:
+                model = pickle.load(file)
+
+            inv_ref = inventario[inventario["Cod. Artículo"] == reference]["Stock unidades"].str.replace(',', '.').astype(
+                float).sum().astype(int)
+            ped_ref = pedidos[pedidos["Producto"] == reference]["Cantidad"].str.replace(',', '.').astype(float).sum().astype(int)
+            prediction00 = model.predict(week_plus0_str)[0].round(0).astype(int)
+            prediction01 = model.predict(week_plus1_str)[0].round(0).astype(int)
+            prediction02 = model.predict(week_plus2_str)[0].round(0).astype(int)
+            total =prediction00 + prediction01 + prediction02 - inv_ref - ped_ref
+            if total < 0:
+                total = 0
+
+            productos.append(reference)
+            pred00.append(prediction00)
+            pred01.append(prediction01)
+            pred02.append(prediction02)
+            recom.append(total)
+            inv.append(inv_ref)
+            ped.append(ped_ref)
+            Ljung.append()
+            mape.append()
+
 
         st.write("Obteniendo resultados ...")
         time.sleep(sleep_time)
+
+        results = {
+            "Producto":productos,
+            f"Consumos semana actual": pred00,
+            f"Consumos semana {week_today + 1}": pred01,
+            f"Consumos semana {week_today + 2}": pred02,
+            "Inventario disponible": inv,
+            "Pedidos por llegar": ped,
+            "Recomendación de compra": total,
+            "P-valor LjunBox": Ljung,
+            "MAPE":mape
+        }
+
 
         # Mostrar resultado final
         st.success("Proceso de predicción completado correctamente.")
 
         # Mostrar los resultados finales
 
-        results = {
-            f"Consumos semana {week_today + 1}": prediction01,
-            f"Consumos semana {week_today + 2}": prediction02,
-            "Stock disponible": inv_ref,
-            "Pedidos por llegar": ped_ref,
-            "Recomendación de compra": total
-        }
+
         # Display key-value pairs using Markdown
         st.write("### Tabla de resultados")
-        for key, value in results.items():
-            st.write(f"- **{key}**:   {value} unidades")
+        st.table(results)
 
         st.markdown("### Datos estadísticos del modelo")
 
