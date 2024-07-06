@@ -162,8 +162,8 @@ if st.button("Predict"):
         recom = []
         inv = []
         ped = []
-        Ljung = []
-        mape =[]
+        #Ljung = []
+        #mape =[]
 
         datos_plot = pd.read_csv("data/datos_entrenamiento_modelo.csv")
         for reference in references:
@@ -192,7 +192,7 @@ if st.button("Predict"):
 
 
 
-            ljung_box_p_value, mape_value = f.eval_model02(model, tr, tst, name=reference)
+          #  ljung_box_p_value, mape_value = f.eval_model02(model, tr, tst, name=reference)
 
             productos.append(reference)
             pred00.append(prediction00)
@@ -201,8 +201,8 @@ if st.button("Predict"):
             recom.append(total)
             inv.append(inv_ref)
             ped.append(ped_ref)
-            Ljung.append(ljung_box_p_value)
-            mape.append(mape_value)
+         #   Ljung.append(ljung_box_p_value)
+          #  mape.append(mape_value)
 
             #st.write(f"Results for {reference}:")
             #st.pyplot(fig)
@@ -218,9 +218,9 @@ if st.button("Predict"):
             f"Consumos semana {week_today + 2}": pred02,
             "Inventario disponible": inv,
             "Pedidos por llegar": ped,
-            "Recomendación de compra": recom,
-            "P-valor LjunBox": Ljung,
-            "MAPE":mape
+            "Recomendación de compra": recom
+            #"P-valor LjunBox": Ljung,
+            #"MAPE":mape
         }
 
 
