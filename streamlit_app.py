@@ -99,7 +99,8 @@ with st.sidebar:
     st.header('3. Seleccionar producto')
 
     options = ["CA140180","CA140181","CA030009","CA030010","CA161459","CA030008","CA100118"]
-    references = st.multiselect('Seleccione el producto', options, index=0)
+    references = st.multiselect('Seleccione el producto', options)
+
 
 
     sleep_time = 0.5
