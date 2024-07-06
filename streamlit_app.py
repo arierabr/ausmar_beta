@@ -204,7 +204,7 @@ if st.button("Predict"):
             Ljung.append(ljung_box_p_value)
             mape.append(mape_value)
 
-            st.write(f"Results for {reference}:")
+            #st.write(f"Results for {reference}:")
             #st.pyplot(fig)
 
 
