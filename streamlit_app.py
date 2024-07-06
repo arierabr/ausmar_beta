@@ -34,10 +34,10 @@ with st.expander('Información para el usuario'):
 
 
 
-def predict(input_data):
-    input_array = np.array(input_data).reshape(1, -1)
-    prediction = model.predict(input_array)
-    return prediction
+#def predict(input_data):
+#    input_array = np.array(input_data).reshape(1, -1)
+#    prediction = model.predict(input_array)
+#    return prediction
 
 # Sidebar for accepting input parameters
 with st.sidebar:
