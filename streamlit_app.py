@@ -234,27 +234,34 @@ if st.button("Predict"):
         st.write("### Tabla de resultados")
         st.table(results)
 
-        st.markdown("### Datos estadísticos del modelo")
+        st.markdown("### Series temporales consumos")
 
         consumos = pd.read_csv('data/datos_entrenamiento_modelo.csv')
 
-        consumos = consumos[consumos["Producto"] == reference].groupby("Semana")["Cantidad"].sum().reset_index()
+        for ref_plot in references:
 
-        consumos.set_index(['Semana'], inplace=True)
-        consumos.index = pd.to_datetime(consumos.index)
-        st.table(consumos.tail())
+            st.markdown(f"Artículo {ref_plot}")
 
-        # Plotting with Altair
-        chart = alt.Chart(consumos.reset_index()).mark_line().encode(
-            x='Semana:T',
-            y='Cantidad:Q'
-        ).properties(
-            width=800,
-            height=400
-        )
+            filtered_data = consumos[consumos["Producto"] == ref_plot].groupby("Semana")["Cantidad"].sum().reset_index()
 
-        # Display the Altair chart in Streamlit
-        st.altair_chart(chart, use_container_width=True)
+            # Set the index to 'Semana' and convert to datetime
+            filtered_data.set_index(['Semana'], inplace=True)
+            filtered_data.index = pd.to_datetime(filtered_data.index)
+
+            # Display the last few rows of the dataframe
+            st.table(filtered_data.tail())
+
+            # Plotting with Altair
+            chart = alt.Chart(filtered_data.reset_index()).mark_line().encode(
+                x='Semana:T',
+                y='Cantidad:Q'
+            ).properties(
+                width=800,
+                height=400
+            )
+
+            # Display the Altair chart in Streamlit
+            st.altair_chart(chart, use_container_width=True)
 
 
 
