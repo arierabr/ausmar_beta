@@ -177,8 +177,8 @@ if st.button("Predict"):
             datos_plot_ref = datos_plot[datos_plot["Producto"] == reference].groupby('Semana')['Cantidad'].sum().reset_index()
             datos_plot_ref.set_index(['Semana'], inplace=True)
             datos_plot_ref.index = pd.to_datetime(datos_plot_ref.index)
-            tr = datos_plot_ref[:'2024-01-08']
-            tst = datos_plot_ref['2024-01-15':]
+            tr = datos_plot_ref.iloc[:-20]
+            tst = datos_plot_ref.iloc[-20:]
 
 
 
@@ -210,8 +210,7 @@ if st.button("Predict"):
             Ljung.append(ljung_box_p_value)
             mape.append(mape_value)
 
-            #st.write(f"Results for {reference}:")
-            #st.pyplot(fig)
+
 
 
         st.write("Obteniendo resultados ...")
@@ -225,7 +224,7 @@ if st.button("Predict"):
             "Inventario disponible": inv,
             "Pedidos por llegar": ped,
             "Recomendación de compra": recom,
-            "P-valor LjunBox": Ljung,
+            "pvalor": Ljung,
             "MAPE":mape
         }
 
@@ -238,24 +237,22 @@ if st.button("Predict"):
 
         # Display key-value pairs using Markdown
         st.write("### Tabla de resultados")
-        st.table(results)
+        st.table(results.iloc[:, :7])
 
-        st.markdown("### Series temporales consumos")
+        st.markdown("### Datos estadísticos del modelo:")
 
-        consumos = pd.read_csv('data/datos_entrenamiento_modelo.csv')
 
         for ref_plot in references:
 
             st.markdown(f"Artículo {ref_plot}")
 
-            filtered_data = consumos[consumos["Producto"] == ref_plot].groupby("Semana")["Cantidad"].sum().reset_index()
+
+            filtered_data = datos_plot[datos_plot["Producto"] == ref_plot].groupby("Semana")["Cantidad"].sum().reset_index()
 
             # Set the index to 'Semana' and convert to datetime
             filtered_data.set_index(['Semana'], inplace=True)
             filtered_data.index = pd.to_datetime(filtered_data.index)
 
-            # Display the last few rows of the dataframe
-            st.table(filtered_data.tail())
 
             # Plotting with Altair
             chart = alt.Chart(filtered_data.reset_index()).mark_line().encode(
@@ -268,6 +265,8 @@ if st.button("Predict"):
 
             # Display the Altair chart in Streamlit
             st.altair_chart(chart, use_container_width=True)
+            st.markdown(f"** P-valor LjungBox ** : {results[results["Producto"]==ref_plot]["pvalor"]} \n"
+                        f"** MAPE ** : {results[results["Producto"]==ref_plot]["MAPE"]}")
 
 
 
