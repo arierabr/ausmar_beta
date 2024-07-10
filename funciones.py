@@ -10,7 +10,8 @@ import pickle
 import os
 import subprocess
 import git
-from weasyprint import HTML
+import pdfkit
+
 
 
 
@@ -277,7 +278,7 @@ def week_number (data_path):
 
 def generate_pdf_report(data):
     # Crear el contenido HTML para el informe
-    report_html = f"""
+    html_content = f"""
     <html>
     <head><title>Informe AUSMAR SL Modelo Predictivo</title></head>
     <body>
@@ -289,6 +290,6 @@ def generate_pdf_report(data):
     """
 
     # Generar el PDF usando WeasyPrint
-    pdf = HTML(string=report_html).write_pdf()
+    pdf = pdfkit.from_string(html_content, False)
 
     return pdf
