@@ -227,7 +227,7 @@ if st.button("Predict"):
             "pvalor": Ljung,
             "MAPE":mape
         }
-
+        results_df = pd.DataFrame(results)
 
         # Mostrar resultado final
         st.success("Proceso de predicción completado correctamente.")
@@ -237,7 +237,7 @@ if st.button("Predict"):
 
         # Display key-value pairs using Markdown
         st.write("### Tabla de resultados")
-        st.table(results.iloc[:, :7])
+        st.table(results_df.iloc[:, :7])
 
         st.markdown("### Datos estadísticos del modelo:")
 
