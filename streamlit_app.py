@@ -265,9 +265,25 @@ if st.button("Predict"):
 
             # Display the Altair chart in Streamlit
             st.altair_chart(chart, use_container_width=True)
+            p_valor = results_df.loc[results_df['Producto'] == ref_plot, 'pvalor'].values[0].round(2)
+            MAPE = (results_df.loc[results_df['Producto'] == ref_plot, 'MAPE'].values[0].round(2) * 100)
+
+            if p_valor < 0.05:
+                color01 = "red"
+            else:
+                color01 = "green"
+
+            if 20 < MAPE < 50:
+                color02 = "yellow"
+            elif MAPE <= 20:
+                color02 = "green"
+            else:
+                color02 = "red"
+
+
             st.markdown(
-                f"**P-valor LjungBox**: {results_df.loc[results_df['Producto'] == ref_plot, 'pvalor'].values[0]} \n"
-                f"**MAPE**: {results_df.loc[results_df['Producto'] == ref_plot, 'MAPE'].values[0]}")
+                f"<span style='color:{color01}'>**P-valor LjungBox**: {p_valor} </span>\n"
+                f"<span style='color:{color02}'>**MAPE**: {MAPE}%</span>\n")
 
 
 
