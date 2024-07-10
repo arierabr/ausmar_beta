@@ -143,7 +143,7 @@ if st.button("Predict"):
 
         # Ejecutar el proceso de predicción y carga de datos
         f.update_models(references, "data/datos_entrenamiento_modelo.csv")
-        time.sleep(5)
+        time.sleep(10)
 
         st.write("Cargando datos ...")
         time.sleep(0.5)
