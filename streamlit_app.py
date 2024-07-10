@@ -216,7 +216,7 @@ if st.button("Predict"):
         st.write("Obteniendo resultados ...")
         time.sleep(sleep_time)
 
-    status.update(label="Status", state="complete", expanded=False)
+    status.update(label="Hecho!", state="complete", expanded=False)
 
     results = {
         "Producto":productos,
