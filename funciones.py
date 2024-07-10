@@ -50,25 +50,21 @@ def eval_model02(model, tr, tst, name='Model', lags=12):
 
     return lb, mean_absolute_percentage_error(tst, pred)
 
-def update_models(lista_referencias, data_path, add_constant=1e-6):
+def update_models(lista_referencias, data_path):
     df = pd.read_csv(data_path)
     for referencia in lista_referencias:
         # Filter the DataFrame for the current reference and group by week
-        referencia_df = df[df["Producto"] == referencia].groupby("Semana")["Cantidad"].sum().reset_index()
-
+        df_producto = df[df["Producto"] == referencia].groupby("Semana")["Cantidad"].sum().reset_index()
         # Set 'Semana' as the index and ensure it's in datetime format
-        referencia_df.set_index('Semana', inplace=True)
-        referencia_df.index = pd.to_datetime(referencia_df.index)
+        df_producto.set_index('Semana', inplace=True)
+        df_producto.index = pd.to_datetime(df_producto.index)
+        # Crear un rango completo de fechas semanales
+        full_range = pd.date_range(start=df_producto.index.min(), end=df_producto.index.max(), freq='W-MON')
+        df_producto_new = df_producto.reindex(full_range, fill_value=0.1)
 
-        # Create a complete weekly index
-        #all_weeks = pd.date_range(start=referencia_df.index.min(), end=referencia_df.index.max(), freq='W')
-        #referencia_df = referencia_df.reindex(all_weeks, fill_value=0)
-
-        # Ensure all values are strictly positive by adding a small constant
-        referencia_df['Cantidad'] = referencia_df['Cantidad'] + add_constant
 
         # Fit the ExponentialSmoothing model
-        hw_mul = ets.ExponentialSmoothing(referencia_df, trend='mul', damped_trend=False, seasonal='mul').fit() #54
+        hw_mul = ets.ExponentialSmoothing(df_producto_new, trend='mul', damped_trend=False, seasonal='mul', seasonal_periods= 54).fit()
 
         # Save the model to a file
         model_path = f'modelos/hw_mul_model_{referencia}.pkl'

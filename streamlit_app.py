@@ -11,8 +11,11 @@ import datetime as datetime
 import datetime
 import funciones as f
 
-
-
+options = ['B062021', 'B062019', 'CA161497', 'CA161491', 'CA151153', 'B062007',
+           'CA151162', 'CA161501', 'CA161509', 'CA140180', 'CA140181', 'CA030009',
+           'CA030008', 'B062009', 'CA030010', 'PT', 'B051904', 'B051983',
+           'B052000', 'CA161459', 'CA161621', 'CA150775', 'B992051', 'B051938',
+           'B051936', 'B062047', 'TPLA1500000', 'CA161592', 'CA100118']
 
 # Page title
 st.set_page_config(page_title='AUSMAR Prediction Model', page_icon='🦺')
@@ -80,6 +83,13 @@ with st.sidebar:
             except Exception as e:
                 print(f"Error al cargar los datos: {e}")
 
+    if st.button("Entrenar modelos"):
+        try:
+            f.update_models(options,"data/datos_entrenamiento_modelo.csv")
+        except Exception as e:
+            print(f"Error al entrenar modelos: {e}")
+        st.success("Modelos entrenados con éxito")
+
 
 
     st.header('2. Importar pedidos e inventarios')
@@ -98,11 +108,7 @@ with st.sidebar:
 
     st.header('3. Seleccionar producto')
 
-    options =['B062021', 'B062019', 'CA161497', 'CA161491', 'CA151153', 'B062007',
-     'CA151162', 'CA161501', 'CA161509', 'CA140180', 'CA140181', 'CA030009',
-     'CA030008', 'B062009', 'CA030010', 'PT', 'B051904', 'B051983',
-     'B052000', 'CA161459', 'CA161621', 'CA150775', 'B992051', 'B051938',
-     'B051936', 'B062047', 'TPLA1500000', 'CA161592', 'CA100118']
+
 
     references = st.multiselect('Seleccione el producto', options)
 
@@ -111,7 +117,7 @@ with st.sidebar:
     sleep_time = 0.5
 
 if color == 'red':
-    st.warning('👈 Porfavor, revise que los datos de aprendizaje estén actualizados, \n'
+    st.warning('👈 Porfavor, revise que los datos de aprendizaje estén actualizados. \n'
                'La precisión del modelo puede ser baja')
 elif file_inventario is None or file_pedidos is None:
     st.warning('👈 No se han introducidos datos para el control de inventario y/o pedidos realizados. \n'
@@ -139,11 +145,6 @@ if st.button("Predict"):
 
     with st.spinner("Corriendo ..."):
 
-        st.write("Entrenando modelo ...")
-
-        # Ejecutar el proceso de predicción y carga de datos
-        f.update_models(references, "data/datos_entrenamiento_modelo.csv")
-        time.sleep(10)
 
         st.write("Cargando datos ...")
         time.sleep(0.5)
