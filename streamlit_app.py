@@ -18,8 +18,8 @@ options = ['B062021', 'B062019', 'CA161497', 'CA161491', 'CA151153', 'B062007',
            'B051936', 'B062047', 'TPLA1500000', 'CA161592', 'CA100118']
 
 # Page title
-st.set_page_config(page_title='AUSMAR Prediction Model', page_icon='🦺')
-st.title('🦺 AUSMAR SL - Stock Prediction Model')
+st.set_page_config(page_title='AUSMAR Prediction Model', page_icon='⛵')
+st.title('⛵ AUSMAR SL - Stock Prediction Model')
 
 with st.expander('Información para el usuario'):
     st.markdown('**¿Cuál es la finalidad de esta herramienta?**')
