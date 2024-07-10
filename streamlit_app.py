@@ -265,8 +265,8 @@ if st.button("Predict"):
 
             # Display the Altair chart in Streamlit
             st.altair_chart(chart, use_container_width=True)
-            st.markdown(f"** P-valor LjungBox ** : {results[results["Producto"]==ref_plot]["pvalor"]} \n"
-                        f"** MAPE ** : {results[results["Producto"]==ref_plot]["MAPE"]}")
+            st.markdown(f"** P-valor LjungBox ** : {results[results['Producto']==ref_plot]['pvalor']} \n"
+                        f"** MAPE ** : {results[results['Producto']==ref_plot]['MAPE']}")
 
 
 
