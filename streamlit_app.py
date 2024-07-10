@@ -143,7 +143,7 @@ st.table(val_entrada)
 
 if st.button("Predict"):
 
-    with st.spinner("Corriendo ..."):
+    with st.status("Corriendo ...",expanded=True) as status:
 
 
         st.write("Cargando datos ...")
@@ -216,81 +216,83 @@ if st.button("Predict"):
         st.write("Obteniendo resultados ...")
         time.sleep(sleep_time)
 
-        results = {
-            "Producto":productos,
-            f"Consumos semana actual": pred00,
-            f"Consumos semana {week_today + 1}": pred01,
-            f"Consumos semana {week_today + 2}": pred02,
-            "Inventario disponible": inv,
-            "Pedidos por llegar": ped,
-            "Recomendación de compra": recom,
-            "pvalor": Ljung,
-            "MAPE":mape
-        }
-        results_df = pd.DataFrame(results)
+    status.update(label="Status", state="complete", expanded=False)
 
-        # Mostrar resultado final
-        st.success("Proceso de predicción completado correctamente.")
+    results = {
+        "Producto":productos,
+        f"Consumos semana actual": pred00,
+        f"Consumos semana {week_today + 1}": pred01,
+        f"Consumos semana {week_today + 2}": pred02,
+        "Inventario disponible": inv,
+        "Pedidos por llegar": ped,
+        "Recomendación de compra": recom,
+        "pvalor": Ljung,
+        "MAPE":mape
+    }
+    results_df = pd.DataFrame(results)
 
-        # Mostrar los resultados finales
+    # Mostrar resultado final
+    st.success("Proceso de predicción completado correctamente.")
 
-
-        # Display key-value pairs using Markdown
-        st.write("### Tabla de resultados")
-        st.table(results_df.iloc[:, :7])
-
-        st.markdown("### Datos estadísticos del modelo:")
+    # Mostrar los resultados finales
 
 
-        for ref_plot in references:
+    # Display key-value pairs using Markdown
+    st.write("### Tabla de resultados")
+    st.table(results_df.iloc[:, :7])
 
-            st.markdown(f"Artículo {ref_plot}")
-
-
-            filtered_data = datos_plot[datos_plot["Producto"] == ref_plot].groupby("Semana")["Cantidad"].sum().reset_index()
-
-            # Set the index to 'Semana' and convert to datetime
-            filtered_data.set_index(['Semana'], inplace=True)
-            filtered_data.index = pd.to_datetime(filtered_data.index)
+    st.markdown("### Datos estadísticos del modelo:")
 
 
-            # Plotting with Altair
-            chart = alt.Chart(filtered_data.reset_index()).mark_line().encode(
-                x='Semana:T',
-                y='Cantidad:Q'
-            ).properties(
-                width=800,
-                height=250
-            )
+    for ref_plot in references:
+
+        st.markdown(f"Artículo {ref_plot}")
+
+
+        filtered_data = datos_plot[datos_plot["Producto"] == ref_plot].groupby("Semana")["Cantidad"].sum().reset_index()
+
+        # Set the index to 'Semana' and convert to datetime
+        filtered_data.set_index(['Semana'], inplace=True)
+        filtered_data.index = pd.to_datetime(filtered_data.index)
+
+
+        # Plotting with Altair
+        chart = alt.Chart(filtered_data.reset_index()).mark_line().encode(
+            x='Semana:T',
+            y='Cantidad:Q'
+        ).properties(
+            width=800,
+            height=250
+        )
 
 
 
-            # Obtener el p-valor y MAPE para el producto ref_plot
-            p_valor = results_df.loc[results_df['Producto'] == ref_plot, 'pvalor'].values[0].round(2)
-            MAPE = results_df.loc[results_df['Producto'] == ref_plot, 'MAPE'].values[0].round(1) * 100
+        # Obtener el p-valor y MAPE para el producto ref_plot
+        p_valor = results_df.loc[results_df['Producto'] == ref_plot, 'pvalor'].values[0].round(2)
+        MAPE = results_df.loc[results_df['Producto'] == ref_plot, 'MAPE'].values[0].round(1) * 100
 
-            # Definir colores basados en condiciones
-            if p_valor < 0.05:
-                color01 = "red"
-            else:
-                color01 = "green"
+        # Definir colores basados en condiciones
+        if p_valor < 0.05:
+            color01 = "red"
+        else:
+            color01 = "green"
 
-            if 20 < MAPE < 50:
-                color02 = "black"
-            elif MAPE <= 20:
-                color02 = "green"
-            else:
-                color02 = "red"
+        if 20 < MAPE < 50:
+            color02 = "black"
+        elif MAPE <= 20:
+            color02 = "green"
+        else:
+            color02 = "red"
 
-            # Mostrar en Markdown con colores condicionales
-            st.markdown(
-                f'<strong>P-valor LjungBox:</strong> <span style="color:{color01}"> {p_valor}</span>\n'
-                f'<strong>MAPE:</strong> <span style="color:{color02}"> {MAPE}%</span>\n',
-                unsafe_allow_html=True
-            )
+        # Mostrar en Markdown con colores condicionales
+        st.markdown(
+            f'<strong>P-valor LjungBox:</strong> <span style="color:{color01}"> {p_valor}</span>\n'
+            f'<strong>MAPE:</strong> <span style="color:{color02}"> {MAPE}%</span>\n',
+            unsafe_allow_html=True
+        )
 
-            # Display the Altair chart in Streamlit
-            st.altair_chart(chart, use_container_width=True)
+        # Display the Altair chart in Streamlit
+        st.altair_chart(chart, use_container_width=True)
 
 
 
