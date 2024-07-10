@@ -277,7 +277,7 @@ if st.button("Predict"):
                 color01 = "green"
 
             if 20 < MAPE < 50:
-                color02 = "yellow"
+                color02 = "black"
             elif MAPE <= 20:
                 color02 = "green"
             else:
@@ -285,8 +285,8 @@ if st.button("Predict"):
 
             # Mostrar en Markdown con colores condicionales
             st.markdown(
-                f'<span style="color:{color01}"><strong>P-valor LjungBox:</strong> {p_valor}</span>\n'
-                f'<span style="color:{color02}"><strong>MAPE:</strong> {MAPE}%</span>\n',
+                f'<strong>P-valor LjungBox:</strong> <span style="color:{color01}"> {p_valor}</span>\n'
+                f'<strong>MAPE:</strong> <span style="color:{color02}"> {MAPE}%</span>\n',
                 unsafe_allow_html=True
             )
 
