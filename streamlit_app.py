@@ -285,8 +285,9 @@ if st.button("Predict"):
 
             # Mostrar en Markdown con colores condicionales
             st.markdown(
-                f'<p style="color:{color01}"><strong>P-valor LjungBox:</strong> {p_valor}</p>'
-                f'<p style="color:{color02}"><strong>MAPE:</strong> {MAPE}%</p>'
+                f'<span style="color:{color01}"><strong>P-valor LjungBox:</strong> {p_valor}</span>\n'
+                f'<span style="color:{color02}"><strong>MAPE:</strong> {MAPE}%</span>\n',
+                unsafe_allow_html=True
             )
 
 
