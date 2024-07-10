@@ -10,6 +10,8 @@ import pickle
 import os
 import subprocess
 import git
+from weasyprint import HTML
+
 
 
 
@@ -272,3 +274,21 @@ def week_number (data_path):
     week_number = dt.isocalendar()[1]
     return week_number
 
+
+def generate_pdf_report(data):
+    # Crear el contenido HTML para el informe
+    report_html = f"""
+    <html>
+    <head><title>Informe AUSMAR SL Modelo Predictivo</title></head>
+    <body>
+        <h1>Documento PDF con la información básica de los consumos de las próximas semanas</h1>
+        <p>A continuación se muestra una tabla con los datos resultantes:</p>
+        {data.to_html()}
+    </body>
+    </html>
+    """
+
+    # Generar el PDF usando WeasyPrint
+    pdf = HTML(string=report_html).write_pdf()
+
+    return pdf
