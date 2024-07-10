@@ -260,11 +260,10 @@ if st.button("Predict"):
                 y='Cantidad:Q'
             ).properties(
                 width=800,
-                height=400
+                height=250
             )
 
-            # Display the Altair chart in Streamlit
-            st.altair_chart(chart, use_container_width=True)
+
 
             # Obtener el p-valor y MAPE para el producto ref_plot
             p_valor = results_df.loc[results_df['Producto'] == ref_plot, 'pvalor'].values[0].round(2)
@@ -290,7 +289,8 @@ if st.button("Predict"):
                 unsafe_allow_html=True
             )
 
-
+            # Display the Altair chart in Streamlit
+            st.altair_chart(chart, use_container_width=True)
 
 
 
