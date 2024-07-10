@@ -98,7 +98,12 @@ with st.sidebar:
 
     st.header('3. Seleccionar producto')
 
-    options = ["CA140180","CA140181","CA030009","CA030010","CA161459","CA030008","CA100118"]
+    options =['B062021', 'B062019', 'CA161497', 'CA161491', 'CA151153', 'B062007',
+     'CA151162', 'CA161501', 'CA161509', 'CA140180', 'CA140181', 'CA030009',
+     'CA030008', 'B062009', 'CA030010', 'PT', 'B051904', 'B051983',
+     'B052000', 'CA161459', 'CA161621', 'CA150775', 'B992051', 'B051938',
+     'B051936', 'B062047', 'TPLA1500000', 'CA161592', 'CA100118']
+
     references = st.multiselect('Seleccione el producto', options)
 
 

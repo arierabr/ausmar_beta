@@ -68,8 +68,7 @@ def update_models(lista_referencias, data_path, add_constant=1e-6):
         referencia_df['Cantidad'] = referencia_df['Cantidad'] + add_constant
 
         # Fit the ExponentialSmoothing model
-        hw_mul = ets.ExponentialSmoothing(referencia_df, trend='mul', damped_trend=False, seasonal='mul',
-                                          seasonal_periods=4).fit() #54
+        hw_mul = ets.ExponentialSmoothing(referencia_df, trend='mul', damped_trend=False, seasonal='mul').fit() #54
 
         # Save the model to a file
         model_path = f'modelos/hw_mul_model_{referencia}.pkl'
