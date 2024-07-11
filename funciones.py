@@ -108,7 +108,7 @@ def update_df(data_path, new_csv):
     df_new = pd.read_csv(new_csv, encoding="latin1", header=0, sep=";")
     # Corregimos el nombre de las columnas:
     df_new.columns = [
-        'Fecha', 'Estado doc.', 'Almacen', 'Producto', 'Subfamilia',
+        'Fecha','Dia semana', 'Estado doc.', 'Almacen', 'Producto', 'Subfamilia',
         'Nº productos', 'Nº Documentos', 'Nº items (lineas)', 'Cantidad', 'Importe bruto (euro)',
         'Importe dto. (euro)', '% Dto. Efectivo', 'Importe (euro)', 'Margen Efectivo (euro)',
         'Coste total (euro)', '% Margen Efectivo', 'Unnamed: 17']
@@ -141,7 +141,7 @@ def import_data(csv):
     df = pd.read_csv(csv, encoding="latin1", header=0, sep=";")
     # Corregimos el nombre de las columnas:
     df.columns = [
-        'Fecha', 'Estado doc.', 'Almacen', 'Producto', 'Subfamilia',
+        'Fecha', 'Dia semana', 'Estado doc.', 'Almacen', 'Producto', 'Subfamilia',
         'Nº productos', 'Nº Documentos', 'Nº items (lineas)', 'Cantidad', 'Importe bruto (euro)',
         'Importe dto. (euro)', '% Dto. Efectivo', 'Importe (euro)', 'Margen Efectivo (euro)',
         'Coste total (euro)', '% Margen Efectivo', 'Unnamed: 17']
