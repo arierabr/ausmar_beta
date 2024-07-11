@@ -1,5 +1,6 @@
 import pandas as pd
 import numpy as np
+import streamlit as st
 import datetime
 import statsmodels.api as sm
 import matplotlib.pyplot as plt
@@ -195,7 +196,9 @@ def load_data(df):
 
         # Hacer push al repositorio remoto
         origin.push()
+        st.experimental_rerun()
         print("Archivo subido al repositorio de GitHub")
+
 
     except Exception as e:
         print(f"Error al guardar el archivo: {e}")
