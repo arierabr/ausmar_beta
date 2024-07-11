@@ -106,6 +106,8 @@ def test_stationarity(timeseries):
 def update_df(data_path, new_csv):
     df_b = pd.read_csv(data_path)
     df = df_b[["Semana", "Almacen", "Producto", "Cantidad"]]
+    df['Semana'] = pd.to_datetime(df['Semana'], format="%d/%m/%Y")
+
     df_new = pd.read_csv(new_csv, encoding="latin1", header=0, sep=";")
     # Corregimos el nombre de las columnas:
     df_new.columns = [
