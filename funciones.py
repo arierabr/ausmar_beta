@@ -104,7 +104,8 @@ def test_stationarity(timeseries):
 
 
 def update_df(data_path, new_csv):
-    df = pd.read_csv(data_path)
+    df_b = pd.read_csv(data_path)
+    df = df_b[["Semana", "Almacen", "Producto", "Cantidad"]]
     df_new = pd.read_csv(new_csv, encoding="latin1", header=0, sep=";")
     # Corregimos el nombre de las columnas:
     df_new.columns = [
@@ -126,7 +127,7 @@ def update_df(data_path, new_csv):
 
     df_new = df_new[["Semana", "Almacen", "Producto", "Cantidad"]]
 
-    if True:#df["Semana"].max() < df_new["Semana"].min():
+    if df["Semana"].max() < df_new["Semana"].min():
 
         # Concatenar los DataFrames verticalmente
         df_updated = pd.concat([df, df_new], ignore_index=True)
