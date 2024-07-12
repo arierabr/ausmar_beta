@@ -150,12 +150,17 @@ if st.button("Predict"):
         time.sleep(0.5)
         inventario = pd.read_csv("data/inventario.csv")
         pedidos = pd.read_csv("data/pedidos.csv")
-        week_plus0 = current_date
-        week_plus1 = current_date + datetime.timedelta(days=7)
-        week_plus2 = current_date + datetime.timedelta(days=14)
+
+        week_plus0 = current_date - pd.to_timedelta(current_date.dt.dayofweek, unit = 'D')
+        week_plus1 = week_plus0 + datetime.timedelta(days=7)
+        week_plus2 = week_plus1 + datetime.timedelta(days=7)
+        week_plus3 = week_plus2 + datetime.timedelta(days=7)
+        week_plus4 = week_plus3 + datetime.timedelta(days=7)
         week_plus0_str = week_plus0.strftime("%Y-%m-%d")
         week_plus1_str = week_plus1.strftime("%Y-%m-%d")
         week_plus2_str = week_plus2.strftime("%Y-%m-%d")
+        week_plus3_str = week_plus3.strftime("%Y-%m-%d")
+        week_plus4_str = week_plus4.strftime("%Y-%m-%d")
 
 
         st.write("Realizando predicciones ...")
@@ -165,6 +170,9 @@ if st.button("Predict"):
         pred00 = []
         pred01 =[]
         pred02 = []
+        pred03 =[]
+        pred04 = []
+        total = []
         recom = []
         inv = []
         ped = []
@@ -192,9 +200,13 @@ if st.button("Predict"):
             prediction00 = model.predict(week_plus0_str)[0].round(0).astype(int)
             prediction01 = model.predict(week_plus1_str)[0].round(0).astype(int)
             prediction02 = model.predict(week_plus2_str)[0].round(0).astype(int)
-            total =prediction00 + prediction01 + prediction02 - inv_ref - ped_ref
-            if total < 0:
-                total = 0
+            prediction03 = model.predict(week_plus3_str)[0].round(0).astype(int)
+            prediction04 = model.predict(week_plus4_str)[0].round(0).astype(int)
+
+            consumo_total = prediction00 + prediction01 + prediction02 + prediction03 + prediction04
+            a_comprar =prediction00 + prediction01 + prediction02 + prediction03 + prediction04 - inv_ref - ped_ref
+            if a_comprar < 0:
+                a_comprar = 0
 
 
 
@@ -204,7 +216,10 @@ if st.button("Predict"):
             pred00.append(prediction00)
             pred01.append(prediction01)
             pred02.append(prediction02)
-            recom.append(total)
+            pred03.append(prediction03)
+            pred04.append(prediction04)
+            recom.append(a_comprar)
+            total.append(consumo_total)
             inv.append(inv_ref)
             ped.append(ped_ref)
             Ljung.append(ljung_box_p_value)
@@ -221,8 +236,11 @@ if st.button("Predict"):
     results = {
         "Producto":productos,
         f"Consumos semana actual": pred00,
-        f"Consumos semana {week_today + 1}": pred01,
-        f"Consumos semana {week_today + 2}": pred02,
+        f"Consumos semana {week_plus1.isocalendar()[1]}": pred01,
+        f"Consumos semana {week_plus2.isocalendar()[1]}": pred02,
+        f"Consumos semana {week_plus3.isocalendar()[1]}": pred03,
+        f"Consumos semana {week_plus4.isocalendar()[1]}": pred04,
+        "Consumo total (5 semana)": total,
         "Inventario disponible": inv,
         "Pedidos por llegar": ped,
         "Recomendación de compra": recom,
@@ -239,7 +257,7 @@ if st.button("Predict"):
 
     # Display key-value pairs using Markdown
     st.write("### Tabla de resultados")
-    st.table(results_df.iloc[:, :7])
+    st.table(results_df.iloc[:, :6])
 
     st.markdown("### Datos estadísticos del modelo:")
 
@@ -249,11 +267,22 @@ if st.button("Predict"):
         st.markdown(f"Artículo {ref_plot}")
 
 
+
         filtered_data = datos_plot[datos_plot["Producto"] == ref_plot].groupby("Semana")["Cantidad"].sum().reset_index()
+        additional_points = pd.DataFrame({
+            "Semana":[week_plus0.isocalendar()[1],week_plus1.isocalendar()[1],
+                      week_plus2.isocalendar()[1],week_plus3.isocalendar()[1],
+                      week_plus4.isocalendar()[1]],
+            "Cantidad":results_df[results_df["Producto"]==ref_plot].iloc[0,1:6].to_list()
+        })
+
 
         # Set the index to 'Semana' and convert to datetime
         filtered_data.set_index(['Semana'], inplace=True)
+        additional_points.set_index(['Semana'], inplace = True)
+
         filtered_data.index = pd.to_datetime(filtered_data.index)
+        additional_points.index = pd.to_datetime(additional_points.index)
 
 
         # Plotting with Altair
@@ -265,7 +294,26 @@ if st.button("Predict"):
             height=250
         )
 
+        # Crear el gráfico de la línea principal
+        line_chart = alt.Chart(filtered_data.reset_index()).mark_line().encode(
+            x=alt.X('Semana:T', title='Semana'),
+            y=alt.Y('Cantidad:Q', title='Cantidad')
+        ).properties(
+            width=800,
+            height=250
+        )
 
+        # Crear los puntos adicionales en color naranja
+        points_chart = alt.Chart(additional_points.reset_index()).mark_point(color='orange').encode(
+            x=alt.X('Semana:T', title='Semana'),
+            y=alt.Y('Cantidad:Q', title='Cantidad')
+        )
+
+        # Superponer los puntos adicionales sobre el gráfico de línea
+        combined_chart = line_chart + points_chart
+
+        # Mostrar el gráfico combinado
+        combined_chart.display()
 
         # Obtener el p-valor y MAPE para el producto ref_plot
         p_valor = results_df.loc[results_df['Producto'] == ref_plot, 'pvalor'].values[0].round(2)
