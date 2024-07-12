@@ -272,9 +272,9 @@ if st.button("Predict"):
 
         filtered_data = datos_plot[datos_plot["Producto"] == ref_plot].groupby("Semana")["Cantidad"].sum().reset_index()
         additional_points = pd.DataFrame({
-            "Semana":[week_plus0.isocalendar()[1],week_plus1.isocalendar()[1],
-                      week_plus2.isocalendar()[1],week_plus3.isocalendar()[1],
-                      week_plus4.isocalendar()[1]],
+            "Semana":[week_plus0,week_plus1,
+                      week_plus2,week_plus3,
+                      week_plus4],
             "Cantidad":results_df[results_df["Producto"]==ref_plot].iloc[0,1:6].to_list()
         })
 
@@ -344,7 +344,7 @@ if st.button("Predict"):
         )
 
         # Display the Altair chart in Streamlit
-        st.altair_chart(chart, use_container_width=True)
+        #st.altair_chart(chart, use_container_width=True)
 
     # Botón para generar el informe en PDF
     if st.button('Generar Informe PDF'):
