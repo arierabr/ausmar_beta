@@ -299,7 +299,7 @@ if st.button("Predict"):
         )
 
         # Crear los puntos adicionales en color naranja
-        pred_chart = alt.Chart(additional_points.reset_index()).mark_line(color='green').encode(
+        pred_chart = alt.Chart(additional_points.reset_index()).mark_line(color='orange').encode(
             x=alt.X('Semana:T', title='Semana'),
             y=alt.Y('Cantidad:Q', title='Cantidad')
         )
@@ -307,8 +307,7 @@ if st.button("Predict"):
         # Superponer los puntos adicionales sobre el gráfico de línea
         combined_chart = line_chart + pred_chart
 
-        # Mostrar el gráfico combinado
-        st.altair_chart(combined_chart, use_container_width=True)
+
 
         #combined_chart.display()
 
@@ -337,7 +336,8 @@ if st.button("Predict"):
         )
 
         # Display the Altair chart in Streamlit
-        #st.altair_chart(chart, use_container_width=True)
+        st.altair_chart(combined_chart, use_container_width=True)
+
 
     # Botón para generar el informe en PDF
     if st.button('Generar Informe PDF'):
