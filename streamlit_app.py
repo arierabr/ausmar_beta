@@ -259,7 +259,7 @@ if st.button("Predict"):
 
     # Display key-value pairs using Markdown
     st.write("### Tabla de resultados")
-    st.table(results_df.iloc[:, :6])
+    st.table(results_df.iloc[:, :7])
 
     st.markdown("### Datos estadísticos del modelo:")
 
