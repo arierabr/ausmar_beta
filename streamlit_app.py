@@ -242,7 +242,7 @@ if st.button("Predict"):
         f"Consumos semana {week_plus2.isocalendar()[1]}": pred02,
         f"Consumos semana {week_plus3.isocalendar()[1]}": pred03,
         f"Consumos semana {week_plus4.isocalendar()[1]}": pred04,
-        "Consumo total (5 semana)": total,
+        "Consumo total (5 semanas)": total,
         "Inventario disponible": inv,
         "Pedidos por llegar": ped,
         "Recomendación de compra": recom,
@@ -250,6 +250,7 @@ if st.button("Predict"):
         "MAPE":mape
     }
     results_df = pd.DataFrame(results)
+    results_df.set_index(['Producto'], inplace=True)
 
     # Mostrar resultado final
     st.success("Proceso de predicción completado correctamente.")
@@ -287,14 +288,6 @@ if st.button("Predict"):
         additional_points.index = pd.to_datetime(additional_points.index)
 
 
-        # Plotting with Altair
-        chart = alt.Chart(filtered_data.reset_index()).mark_line().encode(
-            x='Semana:T',
-            y='Cantidad:Q'
-        ).properties(
-            width=800,
-            height=250
-        )
 
         # Crear el gráfico de la línea principal
         line_chart = alt.Chart(filtered_data.reset_index()).mark_line().encode(
@@ -306,13 +299,13 @@ if st.button("Predict"):
         )
 
         # Crear los puntos adicionales en color naranja
-        points_chart = alt.Chart(additional_points.reset_index()).mark_line(color='green').encode(
+        pred_chart = alt.Chart(additional_points.reset_index()).mark_line(color='green').encode(
             x=alt.X('Semana:T', title='Semana'),
             y=alt.Y('Cantidad:Q', title='Cantidad')
         )
 
         # Superponer los puntos adicionales sobre el gráfico de línea
-        combined_chart = line_chart + points_chart
+        combined_chart = line_chart + pred_chart
 
         # Mostrar el gráfico combinado
         st.altair_chart(combined_chart, use_container_width=True)
