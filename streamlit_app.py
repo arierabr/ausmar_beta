@@ -315,7 +315,9 @@ if st.button("Predict"):
         combined_chart = line_chart + points_chart
 
         # Mostrar el gráfico combinado
-        combined_chart.display()
+        st.altair_chart(combined_chart, use_container_width=True)
+
+        #combined_chart.display()
 
         # Obtener el p-valor y MAPE para el producto ref_plot
         p_valor = results_df.loc[results_df['Producto'] == ref_plot, 'pvalor'].values[0].round(2)
