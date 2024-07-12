@@ -243,9 +243,9 @@ if st.button("Predict"):
         f"Consumos semana {week_plus3.isocalendar()[1]}": pred03,
         f"Consumos semana {week_plus4.isocalendar()[1]}": pred04,
         "Consumo total (5 semanas)": total,
-        "Inventario disponible": inv,
-        "Pedidos por llegar": ped,
-        "Recomendación de compra": recom,
+        "Inventario": inv,
+        "Pedidos": ped,
+        "Recom": recom,
         "pvalor": Ljung,
         "MAPE":mape
     }
@@ -314,6 +314,11 @@ if st.button("Predict"):
         # Obtener el p-valor y MAPE para el producto ref_plot
         p_valor = results_df.loc[results_df['Producto'] == ref_plot, 'pvalor'].values[0].round(2)
         MAPE = results_df.loc[results_df['Producto'] == ref_plot, 'MAPE'].values[0].round(1) * 100
+        inventario_disp = results_df.loc[results_df['Producto'] == ref_plot, 'Inventario'].round(2)
+        pedidos02 = results_df.loc[results_df['Producto'] == ref_plot, 'Pedidos'].round(2)
+        recomendacion = results_df.loc[results_df['Producto'] == ref_plot, 'Recom'].round(2)
+
+
 
         # Definir colores basados en condiciones
         if p_valor < 0.05:
@@ -330,10 +335,20 @@ if st.button("Predict"):
 
         # Mostrar en Markdown con colores condicionales
         st.markdown(
+            f'<strong>Inventario actual:</strong> {inventario_disp} unidades\n'
+            f'<strong>Pedidos realizado:</strong> {pedidos02} unidades\n',
+            unsafe_allow_html=True
+        )
+        st.markdown(
+            f'<strong>Recomendación de compra:</strong> {recomendacion} unidades',
+            unsafe_allow_html=True
+        )
+        st.markdown(
             f'<strong>P-valor LjungBox:</strong> <span style="color:{color01}"> {p_valor}</span>\n'
             f'<strong>MAPE:</strong> <span style="color:{color02}"> {MAPE}%</span>\n',
             unsafe_allow_html=True
         )
+
 
         # Display the Altair chart in Streamlit
         st.altair_chart(combined_chart, use_container_width=True)
