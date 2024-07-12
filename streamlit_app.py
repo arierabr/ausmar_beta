@@ -306,7 +306,7 @@ if st.button("Predict"):
         )
 
         # Crear los puntos adicionales en color naranja
-        points_chart = alt.Chart(additional_points.reset_index()).mark_point(color='orange').encode(
+        points_chart = alt.Chart(additional_points.reset_index()).mark_line(color='green').encode(
             x=alt.X('Semana:T', title='Semana'),
             y=alt.Y('Cantidad:Q', title='Cantidad')
         )
