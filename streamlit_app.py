@@ -250,7 +250,7 @@ if st.button("Predict"):
         "MAPE":mape
     }
     results_df = pd.DataFrame(results)
-    results_df.set_index(['Producto'], inplace=True)
+
 
     # Mostrar resultado final
     st.success("Proceso de predicción completado correctamente.")
