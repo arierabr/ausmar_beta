@@ -339,10 +339,10 @@ if st.button("Predict"):
         st.altair_chart(combined_chart, use_container_width=True)
 
 
-    # Botón para generar el informe en PDF
-    if st.button('Generar Informe PDF'):
-        pdf_file = f.generate_pdf_report(results_df)
-        st.download_button(label='Descargar PDF', data=pdf_file, file_name='informe.pdf', mime='application/pdf')
+# Botón para generar el informe en PDF
+if st.button('Generar Informe PDF'):
+    pdf_file = f.generate_pdf_report(results_df)
+    st.download_button(label='Descargar PDF', data=pdf_file, file_name='informe.pdf', mime='application/pdf')
 
 
 
