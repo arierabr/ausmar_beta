@@ -314,9 +314,9 @@ if st.button("Predict"):
         # Obtener el p-valor y MAPE para el producto ref_plot
         p_valor = results_df.loc[results_df['Producto'] == ref_plot, 'pvalor'].values[0].round(2)
         MAPE = results_df.loc[results_df['Producto'] == ref_plot, 'MAPE'].values[0].round(1) * 100
-        inventario_disp = results_df.loc[results_df['Producto'] == ref_plot, 'Inventario'].round(2)
-        pedidos02 = results_df.loc[results_df['Producto'] == ref_plot, 'Pedidos'].round(2)
-        recomendacion = results_df.loc[results_df['Producto'] == ref_plot, 'Recom'].round(2)
+        inventario_disp = results_df.loc[results_df['Producto'] == ref_plot, 'Inventario'].values[1].round(2)
+        pedidos02 = results_df.loc[results_df['Producto'] == ref_plot, 'Pedidos'].values[1].round(2)
+        recomendacion = results_df.loc[results_df['Producto'] == ref_plot, 'Recom'].values[1].round(2)
 
 
 
