@@ -8,7 +8,7 @@ matplotlib.use('Agg')
 import matplotlib.pyplot as plt
 import altair as alt
 import datetime as datetime
-import datetime
+from datetime import datetime, timedelta
 import funciones as f
 
 options = ['B062021', 'B062019', 'CA161497', 'CA161491', 'CA151153', 'B062007',
@@ -49,7 +49,8 @@ with st.sidebar:
     # Ejemplo de valores
     week_DB = f.week_number("data/datos_entrenamiento_modelo.csv")
     # Get the current date
-    current_date = datetime.date.today()
+    #current_date = datetime.date.today()
+    current_date = pd.Timestamp(datetime.now())
     # Get the ISO calendar week number
     week_today = current_date.isocalendar()[1]
 
@@ -151,11 +152,12 @@ if st.button("Predict"):
         inventario = pd.read_csv("data/inventario.csv")
         pedidos = pd.read_csv("data/pedidos.csv")
 
-        week_plus0 = current_date - pd.to_timedelta(current_date.dt.dayofweek, unit = 'D')
-        week_plus1 = week_plus0 + datetime.timedelta(days=7)
-        week_plus2 = week_plus1 + datetime.timedelta(days=7)
-        week_plus3 = week_plus2 + datetime.timedelta(days=7)
-        week_plus4 = week_plus3 + datetime.timedelta(days=7)
+        #week_plus0 = current_date - pd.to_timedelta(current_date.dt.dayofweek, unit = 'D')
+        week_plus0 = current_date - pd.to_timedelta(current_date.dayofweek, unit='D')
+        week_plus1 = week_plus0 + timedelta(days=7)
+        week_plus2 = week_plus1 + timedelta(days=7)
+        week_plus3 = week_plus2 + timedelta(days=7)
+        week_plus4 = week_plus3 + timedelta(days=7)
         week_plus0_str = week_plus0.strftime("%Y-%m-%d")
         week_plus1_str = week_plus1.strftime("%Y-%m-%d")
         week_plus2_str = week_plus2.strftime("%Y-%m-%d")
