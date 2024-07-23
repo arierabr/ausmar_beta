@@ -1,4 +1,4 @@
-# 🏗️ ML model builder template
+# ⛵ AUSMAR SL stock prediction Model
 
 A simple Streamlit app that lets you build simple ML models with scikit-learn. 
 
