@@ -2,7 +2,8 @@
 
 A simple Streamlit app that lets you build simple ML models with scikit-learn. 
 
-[![Open in Streamlit](https://static.streamlit.io/badges/streamlit_badge_black_white.svg)](https://ml-model-builder-template.streamlit.app/)
+[![Open in Streamlit](https://static.streamlit.io/badges/streamlit_badge_black_white.svg)](https://ausmarbeta-m1hulpatscd.streamlit.app/)
+
 
 ### How to run it on your own machine
 
