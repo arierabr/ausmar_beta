@@ -225,7 +225,7 @@ if st.button("Predict"):
             inv.append(inv_ref)
             ped.append(ped_ref)
             Ljung.append(ljung_box_p_value)
-            mape.append(mape_value)
+            mape.append(mape_value.round(2))
 
 
 
@@ -247,7 +247,7 @@ if st.button("Predict"):
         "Pedidos": ped,
         "Recom": recom,
         "pvalor": Ljung,
-        "MAPE":mape.round(2)
+        "MAPE":mape
     }
     results_df = pd.DataFrame(results)
 
