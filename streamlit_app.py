@@ -355,9 +355,9 @@ if st.button("Predict"):
 
 
 # Botón para generar el informe en PDF
-    if st.button('Generar Informe PDF'):
-        pdf_file = f.generate_pdf_report(results_df)
-        st.download_button(label='Descargar PDF', data=pdf_file, file_name='informe.pdf', mime='application/pdf')
+  #  if st.button('Generar Informe PDF'):
+  #      pdf_file = f.generate_pdf_report(results_df)
+  #      st.download_button(label='Descargar PDF', data=pdf_file, file_name='informe.pdf', mime='application/pdf')
 
 
 
