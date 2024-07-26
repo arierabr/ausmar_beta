@@ -188,7 +188,7 @@ if st.button("Predict"):
             datos_plot_ref.set_index(['Semana'], inplace=True)
             datos_plot_ref.index = pd.to_datetime(datos_plot_ref.index)
             tr = datos_plot_ref.iloc[:-20]
-            tst = datos_plot_ref.iloc[-20:]
+            tst = datos_plot_ref.iloc[-21:]
 
 
 
@@ -247,7 +247,7 @@ if st.button("Predict"):
         "Pedidos": ped,
         "Recom": recom,
         "pvalor": Ljung,
-        "MAPE":mape
+        "MAPE":mape.round(2)
     }
     results_df = pd.DataFrame(results)
 
