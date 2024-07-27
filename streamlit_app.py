@@ -28,7 +28,7 @@ with st.expander('Información para el usuario'):
 
     st.markdown('**¿Cómo utilizarla?**')
     st.info('Le recomendamos que se dirija al panel lateral izquierdo y siga los siguientes pasos:\n'
-            '1. Asegúrese de que las bases de datos para entrenar el modelo están actualizada con los últimos datos de la semana pasada (recuadro en verde). \n'
+            '1. Asegúrese que la base de datos para entrenar el modelo esté actualizada (recuadro en verde). \n'
             'En caso contrario, actualice los datos que faltan importando el archivo csv en "Añadir datos recientes". \n'
             'Si lo desea, puede actualizar por completo la base de datos en "Refrescar todos los datos". \n'
             '2. Una vez importados los datos, aparecerá un botón para cargar los datos "Load Data". Haga clic y asegúrese que el recuadro pasa de rojo a verde. \n'
