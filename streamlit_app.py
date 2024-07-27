@@ -28,12 +28,13 @@ with st.expander('Información para el usuario'):
 
     st.markdown('**¿Cómo utilizarla?**')
     st.info('Le recomendamos que se dirija al panel lateral izquierdo y siga los siguientes pasos:\n'
-            '1. Asegúrese de que las bases de datos para entrenar el modelo están actualizada con los últimos datos de la semana pasada. \n'
+            '1. Asegúrese de que las bases de datos para entrenar el modelo están actualizada con los últimos datos de la semana pasada (recuadro en verde). \n'
             'En caso contrario, actualice los datos que faltan importando el archivo csv en "Añadir datos recientes". \n'
             'Si lo desea, puede actualizar por completo la base de datos en "Refrescar todos los datos". \n'
-            '2. Importe el csv de los datos de compra del último mes en "Pedidos recientes". \n'
-            '3. Importe el csv del inventario actual disponible en "Inventario disponible". \n'
-            '3. Seleccione los productos deseados para la predicción de consumos en las proximas dos semana. \n')
+            '2. Una vez importados los datos, aparecerá un botón para cargar los datos "Load Data". Haga clic y asegúrese que el recuadro pasa de rojo a verde. \n'
+            '3. Siempre que cargue nuevos datos es importante que vuelva a entrenar los modelos con el botón "Entrenar Modelos. \n'
+            '4. Importe el csv del inventario actual disponible en "Inventario disponible" y las compras del último mes en "Pedidos recientes".\n'
+            '5. Finalmente, seleccione los productos deseados para la predicción de consumos de las proximas semanas. \n')
 
 
 
