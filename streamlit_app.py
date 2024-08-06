@@ -81,7 +81,7 @@ with st.sidebar:
         st.success("Archivo importado con éxito")
 
     if (df_all_data is not None) or (new_data is not None):
-        if st.button("Load Data"):
+        if st.button("Load Data "):
             try:
                 f.load_data(df)
             except Exception as e:
