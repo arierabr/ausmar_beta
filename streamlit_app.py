@@ -48,12 +48,14 @@ with st.sidebar:
     st.header('1. Datos de aprendizaje para el modelo:')
 
     # Ejemplo de valores
-    week_DB = f.week_number("data/datos_entrenamiento_modelo.csv")
+    week_DB = f.week_number("data/datos_entrenamiento_modelo.csv")[1]
+    year_DB = f.week_number("data/datos_entrenamiento_modelo.csv")[0]
     # Get the current date
     #current_date = datetime.date.today()
     current_date = pd.Timestamp(datetime.now())
     # Get the ISO calendar week number
     week_today = current_date.isocalendar()[1]
+    year_today = current_date.isocalendar()[0]
 
     # Condición para determinar el color
     if week_DB + 1 == week_today:
@@ -62,8 +64,8 @@ with st.sidebar:
         color = 'red'
 
     st.markdown(f'<div style="background-color: {color}; padding: 10px;">'
-                f'<p>Semana de actualización: {week_DB}</p>'
-                f'<p>Semana actual: {week_today}</p>'
+                f'<p>Semana de actualización: {week_DB}, {year_DB}</p>'
+                f'<p>Semana actual: {week_today}, {year_today}</p>'
                 '</div>', unsafe_allow_html=True)
 
 

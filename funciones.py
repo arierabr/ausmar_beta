@@ -279,7 +279,8 @@ def week_number (data_path):
     df["Semana"] = pd.to_datetime(df["Semana"])
     dt = df["Semana"].max()
     week_number = dt.isocalendar()[1]
-    return week_number
+    year_number = dt.isocalendar()[0]
+    return year_number, week_number
 
 
 def generate_pdf_report(data):
