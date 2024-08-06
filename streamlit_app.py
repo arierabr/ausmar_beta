@@ -51,8 +51,10 @@ with st.sidebar:
     week_DB = f.week_number("data/datos_entrenamiento_modelo.csv")[1]
     year_DB = f.week_number("data/datos_entrenamiento_modelo.csv")[0]
     # Get the current date
-    #current_date = datetime.date.today()
-    current_date = pd.Timestamp(datetime.now())
+
+    #current_date = pd.Timestamp(datetime.now())
+    current_date = pd.Timestamp(datetime(2024, 7, 9))
+
     # Get the ISO calendar week number
     week_today = current_date.isocalendar()[1]
     year_today = current_date.isocalendar()[0]
@@ -81,7 +83,7 @@ with st.sidebar:
         st.success("Archivo importado con éxito")
 
     if (df_all_data is not None) or (new_data is not None):
-        if st.button("Load Data "):
+        if st.button("Load Data"):
             try:
                 f.load_data(df)
             except Exception as e:
