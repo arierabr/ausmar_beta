@@ -52,8 +52,8 @@ with st.sidebar:
     year_DB = f.week_number("data/datos_entrenamiento_modelo.csv")[0]
     # Get the current date
 
-    #current_date = pd.Timestamp(datetime.now())
-    current_date = pd.Timestamp(datetime(2024, 7, 9))
+    current_date = pd.Timestamp(datetime.now())
+    #current_date = pd.Timestamp(datetime(2024, 7, 9))
 
     # Get the ISO calendar week number
     week_today = current_date.isocalendar()[1]
