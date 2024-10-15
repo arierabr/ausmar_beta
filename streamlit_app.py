@@ -192,7 +192,7 @@ if st.button("Predict"):
             datos_plot_ref = datos_plot[datos_plot["Producto"] == reference].groupby('Semana')['Cantidad'].sum().reset_index()
             datos_plot_ref.set_index(['Semana'], inplace=True)
             datos_plot_ref.index = pd.to_datetime(datos_plot_ref.index)
-            tr = datos_plot_ref.iloc[:-10]
+            tr = datos_plot_ref.iloc[-50:-10]
             tst = datos_plot_ref.iloc[-11:]
 
 
