@@ -60,7 +60,7 @@ with st.sidebar:
     year_today = current_date.isocalendar()[0]
 
     # Condición para determinar el color
-    if (year_today - 1 == year_DB) or (week_DB + 1 == week_today):
+    if (year_today - 1 == year_DB) or (week_DB + 1 >= week_today):
         color = '#8FBC8F'
     else:
         color = 'red'
